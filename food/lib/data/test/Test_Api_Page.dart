@@ -26,7 +26,9 @@ class _TestApiPageState extends State<TestApiPage> {
   Future<void> fetchRecipes() async {
     try {
       final data = await apiClient.fetchRecipes();
-      recipes = data.map((json) => ApiModel.fromJson(json)).toList();
+      recipes = data
+          .map((json) => ApiModel.fromJson(json as Map<String, dynamic>))
+          .toList();
 
       for (var recipe in recipes) {
         if (kDebugMode) {

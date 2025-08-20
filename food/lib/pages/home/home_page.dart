@@ -29,7 +29,9 @@ class _HomePageState extends State<HomePage> {
     try {
       final data = await apiClient.fetchRecipes();
       setState(() {
-        recipes = data.map((json) => ApiModel.fromJson(json)).toList();
+        recipes = data
+            .map((json) => ApiModel.fromJson(json as Map<String, dynamic>))
+            .toList();
         isLoading = false;
       });
     } catch (e) {

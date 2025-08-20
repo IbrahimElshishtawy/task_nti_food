@@ -16,7 +16,7 @@ class ApiModel {
   final int reviewCount;
   final List<String> mealType;
   final double price;
-  final dynamic description;
+  final String? description;
 
   ApiModel({
     required this.id,
@@ -35,30 +35,30 @@ class ApiModel {
     required this.rating,
     required this.reviewCount,
     required this.mealType,
-    required this.description,
+    this.description,
     this.price = 20,
   });
 
   factory ApiModel.fromJson(Map<String, dynamic> json) {
     return ApiModel(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'] ?? '',
-      ingredients: List<String>.from(json['ingredients']),
-      instructions: List<String>.from(json['instructions']),
-      prepTimeMinutes: json['prepTimeMinutes'],
-      cookTimeMinutes: json['cookTimeMinutes'],
-      servings: json['servings'],
-      difficulty: json['difficulty'],
-      cuisine: json['cuisine'],
-      caloriesPerServing: json['caloriesPerServing'],
-      tags: List<String>.from(json['tags']),
-      userId: json['userId'],
-      image: json['image'],
-      rating: json['rating'].toDouble(),
-      reviewCount: json['reviewCount'],
-      mealType: List<String>.from(json['mealType']),
-      price: 20,
+      id: json['id'] ?? 0,
+      name: json['name'] ?? "No name",
+      description: json['description'] as String?,
+      ingredients: List<String>.from(json['ingredients'] ?? []),
+      instructions: List<String>.from(json['instructions'] ?? []),
+      prepTimeMinutes: json['prepTimeMinutes'] ?? 0,
+      cookTimeMinutes: json['cookTimeMinutes'] ?? 0,
+      servings: json['servings'] ?? 0,
+      difficulty: json['difficulty'] ?? "Unknown",
+      cuisine: json['cuisine'] ?? "Unknown",
+      caloriesPerServing: json['caloriesPerServing'] ?? 0,
+      tags: List<String>.from(json['tags'] ?? []),
+      userId: json['userId'] ?? 0,
+      image: json['image'] ?? "",
+      rating: (json['rating'] ?? 0).toDouble(),
+      reviewCount: json['reviewCount'] ?? 0,
+      mealType: List<String>.from(json['mealType'] ?? []),
+      price: (json['price'] ?? 20).toDouble(),
     );
   }
 }
