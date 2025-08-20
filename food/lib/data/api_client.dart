@@ -10,7 +10,7 @@ class ApiClient {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
-    // السماح بكل الاستجابات أقل من 500
+
     dio.options.validateStatus = (status) => status! < 500;
   }
 

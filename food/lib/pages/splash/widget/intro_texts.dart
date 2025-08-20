@@ -12,7 +12,7 @@ class IntroTexts extends StatelessWidget {
           duration: const Duration(seconds: 2),
           delay: const Duration(milliseconds: 500),
           child: const Text(
-            "Welcome to Our Restaurant",
+            " Our Restaurant",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 28,

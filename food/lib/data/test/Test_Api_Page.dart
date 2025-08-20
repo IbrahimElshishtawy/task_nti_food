@@ -28,7 +28,6 @@ class _TestApiPageState extends State<TestApiPage> {
       final data = await apiClient.fetchRecipes();
       recipes = data.map((json) => ApiModel.fromJson(json)).toList();
 
-      // طباعة كل الوصفات في الكونصول
       for (var recipe in recipes) {
         if (kDebugMode) {
           print("ID: ${recipe.id}");

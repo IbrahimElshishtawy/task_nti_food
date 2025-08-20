@@ -15,6 +15,9 @@ class ApiModel {
   final double rating;
   final int reviewCount;
   final List<String> mealType;
+  final double price;
+
+  var description;
 
   ApiModel({
     required this.id,
@@ -33,6 +36,7 @@ class ApiModel {
     required this.rating,
     required this.reviewCount,
     required this.mealType,
+    this.price = 20,
   });
 
   factory ApiModel.fromJson(Map<String, dynamic> json) {
@@ -53,6 +57,7 @@ class ApiModel {
       rating: json['rating'].toDouble(),
       reviewCount: json['reviewCount'],
       mealType: List<String>.from(json['mealType']),
+      price: 20,
     );
   }
 }
