@@ -12,7 +12,7 @@ class IntroPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/images/restaurant.png", height: 200),
+            Image.asset("assets/image/imageintro.png", height: 200),
             const SizedBox(height: 20),
             const Text(
               "Welcome to Our Restaurant",
