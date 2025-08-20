@@ -22,7 +22,10 @@ class IntroLogo extends StatelessWidget {
           ],
         ),
         child: ClipOval(
-          child: Image.asset("assets/image/imageintro.png", fit: BoxFit.cover),
+          child: Image.asset(
+            "assets/image/introimageapp.jpeg",
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
