@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food/pages/home/home_page.dart';
 import 'package:food/pages/splash/intro/intro_page.dart';
 import 'package:food/pages/splash/splash_page.dart';
 
@@ -20,7 +21,7 @@ class food_app extends StatelessWidget {
       routes: {
         "/": (context) => const SplashPage(),
         "/intro": (context) => const IntroPage(),
-        // "/home": (context) => const HomePage(),
+        "/home": (context) => const HomePage(),
         // "/food_detail": (context) => const FoodDetailPage(),
         // "/cart": (context) => const CartPage(),
         // "/checkout": (context) => const CheckoutPage(),
