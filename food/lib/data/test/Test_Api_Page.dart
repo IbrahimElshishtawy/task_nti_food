@@ -32,6 +32,7 @@ class _TestApiPageState extends State<TestApiPage> {
         if (kDebugMode) {
           print("ID: ${recipe.id}");
           print("Name: ${recipe.name}");
+          print("Recipe Description: ${recipe.description}");
           print("Ingredients: ${recipe.ingredients.join(', ')}");
           print("Instructions: ${recipe.instructions.join(' | ')}");
           print("Prep Time: ${recipe.prepTimeMinutes} mins");

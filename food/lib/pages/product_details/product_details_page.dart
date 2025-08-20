@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:food/data/api_model.dart';
 import 'package:food/pages/product_details/widget/animated_tile.dart';
@@ -38,12 +40,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
   @override
   Widget build(BuildContext context) {
     final recipe = widget.recipe;
+
     return Scaffold(
       backgroundColor: Colors.orange.shade50,
       body: CustomScrollView(
         slivers: [
+          // 🔹 Product Image + Title
           SliverAppBar(
-            expandedHeight: 300,
+            expandedHeight: 280,
             pinned: true,
             backgroundColor: Colors.deepOrange,
             flexibleSpace: FlexibleSpaceBar(
@@ -61,7 +65,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      Image.network(recipe.image, fit: BoxFit.cover),
+                      recipe.image.isNotEmpty
+                          ? Image.network(recipe.image, fit: BoxFit.cover)
+                          : Image.asset(
+                              "assets/images/placeholder.png",
+                              fit: BoxFit.cover,
+                            ),
                       Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -86,6 +95,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
               ),
             ],
           ),
+
+          // 🔹 Body Content
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -94,17 +105,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      recipe.name,
-                      style: const TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 10),
+                    // Price
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const Icon(
                           Icons.attach_money,
@@ -121,7 +123,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 12),
+
+                    // Rating
                     Row(
                       children: [
                         Row(
@@ -140,24 +144,41 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
                       ],
                     ),
                     const SizedBox(height: 20),
+
+                    // Description
+                    // Debug print moved to initState or another method if needed
+
+                    // UI
                     Text(
-                      recipe.description ?? "No description available.",
+                      recipe.description ?? "No description available",
                       style: const TextStyle(fontSize: 16, height: 1.5),
                     ),
-                    const SizedBox(height: 20),
+
+                    const SizedBox(height: 24),
+
+                    // Info Cards Section
+                    const Text(
+                      "Quick Info",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
                     Wrap(
                       spacing: 12,
                       runSpacing: 12,
                       children: [
                         InfoCard(
                           Icons.timer,
-                          "${recipe.prepTimeMinutes} دق تحضير",
+                          "${recipe.prepTimeMinutes} min prep",
                         ),
                         InfoCard(
                           Icons.local_fire_department,
-                          "${recipe.cookTimeMinutes} دق طبخ",
+                          "${recipe.cookTimeMinutes} min cook",
                         ),
-                        InfoCard(Icons.fastfood, "${recipe.servings} أفراد"),
+                        InfoCard(Icons.fastfood, "${recipe.servings} servings"),
                         InfoCard(Icons.local_dining, recipe.difficulty),
                         InfoCard(
                           Icons.local_fire_department,
@@ -167,6 +188,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
                       ],
                     ),
                     const SizedBox(height: 30),
+
+                    // Show/Hide Details Button
                     Center(
                       child: ElevatedButton.icon(
                         icon: Icon(
@@ -174,7 +197,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
                           color: Colors.white,
                         ),
                         label: Text(
-                          showDetails ? "إخفاء التفاصيل" : "عرض التفاصيل",
+                          showDetails ? "Hide Details" : "Show Details",
                           style: const TextStyle(fontSize: 18),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -188,63 +211,71 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
                           ),
                         ),
                         onPressed: () {
-                          setState(() {
-                            showDetails = !showDetails;
-                          });
+                          setState(() => showDetails = !showDetails);
                         },
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
+
+                    // Ingredients + Instructions
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 500),
                       child: showDetails
                           ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               key: const ValueKey("details"),
                               children: [
                                 AnimatedTile(
-                                  title: "المكونات",
-                                  children: recipe.ingredients
-                                      .map(
-                                        (ing) => ListTile(
-                                          leading: const Icon(
-                                            Icons.check_circle,
-                                            color: Colors.green,
-                                          ),
-                                          title: Text(ing),
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                                const SizedBox(height: 10),
-                                AnimatedTile(
-                                  title: "خطوات التحضير",
-                                  children: recipe.instructions
-                                      .asMap()
-                                      .entries
-                                      .map(
-                                        (entry) => ListTile(
-                                          leading: CircleAvatar(
-                                            radius: 14,
-                                            backgroundColor: Colors.redAccent,
-                                            child: Text(
-                                              "${entry.key + 1}",
-                                              style: const TextStyle(
-                                                color: Colors.white,
+                                  title: "Ingredients",
+                                  children:
+                                      recipe.ingredients
+                                          ?.map(
+                                            (ing) => ListTile(
+                                              leading: const Icon(
+                                                Icons.check_circle,
+                                                color: Colors.green,
                                               ),
+                                              title: Text(ing),
                                             ),
-                                          ),
-                                          title: Text(entry.value),
-                                        ),
-                                      )
-                                      .toList(),
+                                          )
+                                          .toList() ??
+                                      [],
+                                ),
+                                const SizedBox(height: 12),
+                                AnimatedTile(
+                                  title: "Instructions",
+                                  children:
+                                      recipe.instructions
+                                          .asMap()
+                                          .entries
+                                          .map(
+                                            (entry) => ListTile(
+                                              leading: CircleAvatar(
+                                                radius: 14,
+                                                backgroundColor:
+                                                    Colors.redAccent,
+                                                child: Text(
+                                                  "${entry.key + 1}",
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              title: Text(entry.value),
+                                            ),
+                                          )
+                                          .toList() ??
+                                      [],
                                 ),
                               ],
                             )
                           : const SizedBox(),
                     ),
                     const SizedBox(height: 30),
+
+                    // Suggested Section
                     const Text(
-                      "قد يعجبك أيضًا",
+                      "You may also like",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -270,6 +301,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
           ),
         ],
       ),
+
+      // 🔹 Buy Button
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -285,11 +318,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
             ),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("${recipe.name} تمت إضافته للعربة")),
+                SnackBar(
+                  content: Text("${recipe.name} has been added to cart"),
+                ),
               );
             },
             label: Text(
-              "اشترى الآن - ${recipe.price.toStringAsFixed(2)} EGP",
+              "Buy Now - ${recipe.price.toStringAsFixed(2)} EGP",
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
