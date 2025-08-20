@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food/pages/splash/intro/intro_page.dart';
+import 'package:food/pages/splash/splash_page.dart';
 
 void main() {
   runApp(const food_app());
@@ -16,8 +18,8 @@ class food_app extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.red, fontFamily: "Poppins"),
       initialRoute: "/",
       routes: {
-        // "/": (context) => const SplashPage(),
-        // "/intro": (context) => const IntroPage(),
+        "/": (context) => const SplashPage(),
+        "/intro": (context) => const IntroPage(),
         // "/home": (context) => const HomePage(),
         // "/food_detail": (context) => const FoodDetailPage(),
         // "/cart": (context) => const CartPage(),
