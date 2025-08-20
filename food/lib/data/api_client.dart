@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 class ApiClient {
+  var baseUrl = 'https://dummyjson.com/recipes';
   var headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
