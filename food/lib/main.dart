@@ -22,7 +22,7 @@ class food_app extends StatelessWidget {
         "/": (context) => const SplashPage(),
         "/intro": (context) => const IntroPage(),
         "/home": (context) => const HomePage(),
-        // "/food_detail": (context) => const FoodDetailPage(),
+        //"/food_detail": (context) => const FoodDetailPage(),
         // "/cart": (context) => const CartPage(),
         // "/checkout": (context) => const CheckoutPage(),
         // "/profile": (context) => const ProfilePage(),
