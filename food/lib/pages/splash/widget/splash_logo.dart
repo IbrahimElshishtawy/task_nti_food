@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -32,7 +34,7 @@ class SplashLogo extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
             child: Image.asset(
               "assets/image/introApp.jpeg", // PNG شفافة
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             ),
           ),
         ),
