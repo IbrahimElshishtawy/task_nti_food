@@ -1,37 +1,34 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:food/data/api_client.dart';
 import 'package:food/data/api_model.dart';
 
 class ProductDetailsController extends ChangeNotifier {
   final ApiModel recipe;
-  ProductDetailsController({required this.recipe}) {
-    fetchSuggestedRecipes();
-  }
+  final ApiClient apiClient = ApiClient();
 
-  bool showDetails = false;
-  List<ApiModel> suggestedRecipes = [];
-  bool isLoading = true;
+  bool isLoading = false;
   String? error;
+  List<ApiModel> suggestedRecipes = [];
+  bool showDetails = false;
 
-  final ApiClient _apiClient = ApiClient();
+  ProductDetailsController({required this.recipe}) {
+    fetchSuggested();
+  }
 
   void toggleDetails() {
     showDetails = !showDetails;
     notifyListeners();
   }
 
-  Future<void> fetchSuggestedRecipes() async {
+  Future<void> fetchSuggested() async {
     isLoading = true;
     notifyListeners();
-
     try {
-      final allRecipes = await _apiClient.fetchSuggestedRecipes();
-      // ممكن تعمل فلتر عشان ماترجعش نفس الوصفة الحالية
-      suggestedRecipes = allRecipes.where((r) => r.id != recipe.id).toList();
-      isLoading = false;
-      notifyListeners();
+      suggestedRecipes = await apiClient.fetchSuggestedRecipes();
+      error = null;
     } catch (e) {
       error = e.toString();
+    } finally {
       isLoading = false;
       notifyListeners();
     }

@@ -29,9 +29,7 @@ class _HomePageState extends State<HomePage> {
     try {
       final data = await apiClient.fetchRecipes();
       setState(() {
-        recipes = data
-            .map((json) => ApiModel.fromJson(json as Map<String, dynamic>))
-            .toList();
+        recipes = data; // مباشرة لأن fetchRecipes() ترجع List<ApiModel>
         isLoading = false;
       });
     } catch (e) {
@@ -62,10 +60,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void goToCategories() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => const CategoriesPage()),
-    // );
+    // هنا يمكن إضافة نافذة Categories
   }
 
   @override
@@ -86,8 +81,8 @@ class _HomePageState extends State<HomePage> {
               },
             ),
       // const FavoritesPage(),
-      //const SearchPage(),
-      //const ProfilePage(),
+      // const SearchPage(),
+      // const ProfilePage(),
     ];
 
     return Scaffold(

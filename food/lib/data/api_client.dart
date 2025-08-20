@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:food/data/api_model.dart';
+import 'api_model.dart';
 
 class ApiClient {
   final String baseUrl = 'https://dummyjson.com';
@@ -11,45 +11,33 @@ class ApiClient {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
-    dio.options.validateStatus = (status) => status! < 500;
+    dio.options.validateStatus = (status) => status != null && status < 500;
   }
 
   Future<List<ApiModel>> fetchRecipes() async {
     try {
-      final Response<Map<String, dynamic>> response = await dio.get('/recipes');
-      final List recipesJson = response.data?['recipes'] ?? [];
-      return recipesJson.map((json) => ApiModel.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw Exception('Failed to load recipes: ${e.message}');
-    } catch (e) {
-      throw Exception('Unexpected error: $e');
-    }
-  }
-
-  Future<List<ApiModel>> fetchSuggestedRecipes() async {
-    try {
-      final allRecipes = await fetchRecipes();
-      return allRecipes.take(5).toList();
-    } catch (e) {
-      throw Exception('Failed to load suggested recipes: $e');
-    }
-  }
-
-  Future<List<ApiModel>> fetchRecipesWithNewInstance() async {
-    try {
-      final dioInstance = Dio();
-      dioInstance.options.baseUrl = baseUrl;
-      final Response<Map<String, dynamic>> response = await dioInstance.get(
-        '/recipes',
-      );
-      if (response.statusCode == 200 && response.data != null) {
-        final List recipesJson = response.data?['recipes'] ?? [];
-        return recipesJson.map((json) => ApiModel.fromJson(json)).toList();
+      final response = await dio.get('/recipes');
+      if (response.statusCode == 200) {
+        final data = response.data;
+        if (data != null && data['recipes'] is List) {
+          return (data['recipes'] as List)
+              .map((item) => ApiModel.fromJson(Map<String, dynamic>.from(item)))
+              .toList();
+        } else {
+          throw Exception('Unexpected response structure');
+        }
       } else {
-        throw Exception('Failed to load recipes: ${response.statusCode}');
+        throw Exception('Failed to fetch recipes: ${response.statusCode}');
       }
+    } on DioException catch (e) {
+      throw Exception('Dio error: ${e.message}');
     } catch (e) {
       throw Exception('Unexpected error: $e');
     }
+  }
+
+  Future<List<ApiModel>> fetchSuggestedRecipes({int take = 5}) async {
+    final recipes = await fetchRecipes();
+    return recipes.take(take).toList();
   }
 }

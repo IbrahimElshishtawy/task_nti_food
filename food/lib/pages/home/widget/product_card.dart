@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:food/data/api_model.dart';
 import 'package:food/pages/product_details/product_details_page.dart';
