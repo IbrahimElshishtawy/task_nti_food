@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food/data/api_client.dart';
 import 'package:food/data/api_model.dart';
+import 'package:food/pages/Favorites_food/ui/Favorites_food_page.dart';
 import 'package:food/pages/home/widget/product_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     try {
       final data = await apiClient.fetchRecipes();
       setState(() {
-        recipes = data; // مباشرة لأن fetchRecipes() ترجع List<ApiModel>
+        recipes = data;
         isLoading = false;
       });
     } catch (e) {
@@ -66,6 +67,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final pages = [
+      // الصفحة الرئيسية
       isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -80,9 +82,20 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-      // const FavoritesPage(),
-      // const SearchPage(),
-      // const ProfilePage(),
+
+      // صفحة المفضلة
+      FavoritesPage(
+        favoriteRecipes: recipes
+            .asMap()
+            .entries
+            .where((entry) => favorites.contains(entry.key))
+            .map((entry) => entry.value)
+            .toList(),
+      ),
+
+      // باقي الصفحات
+      const SizedBox(), // صفحة البحث
+      const SizedBox(), // صفحة البروفايل
     ];
 
     return Scaffold(
