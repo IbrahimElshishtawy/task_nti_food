@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:food/pages/product_details/widget/Recipe_AppBar.dart';
 import 'package:food/pages/product_details/widget/details_section.dart';
 import 'package:food/pages/product_details/widget/quick_buy_section.dart';
 import 'package:food/pages/product_details/widget/quick_info_section.dart';
 import 'package:food/pages/product_details/widget/suggested_section.dart';
 import '../../data/api_model.dart';
-
 import 'controls/product_details_controller.dart';
 
 class ProductDetailsPage extends StatefulWidget {
@@ -50,125 +50,71 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
       backgroundColor: Colors.orange.shade50,
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            expandedHeight: 280,
-            pinned: true,
-            backgroundColor: Colors.deepOrange,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                recipe.name,
-                style: const TextStyle(color: Colors.white),
-              ),
-              background: Hero(
-                tag: "recipe_${recipe.id}",
-                child: FadeTransition(
-                  opacity: _fadeIn,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      recipe.image.isNotEmpty
-                          ? Image.network(recipe.image, fit: BoxFit.cover)
-                          : Image.asset(
-                              "assets/images/placeholder.png",
-                              fit: BoxFit.cover,
-                            ),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.black.withOpacity(0.6),
-                              Colors.transparent,
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+          RecipeAppBar(recipe: recipe, fadeIn: _fadeIn),
+
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // السعر والشراء
                   QuickBuySection(recipe: recipe),
-
                   const SizedBox(height: 20),
-
-                  // تقييم النجوم
                   Row(
-                    children: List.generate(
-                      5,
-                      (i) => Icon(
-                        i < recipe.rating.toInt()
-                            ? Icons.star
-                            : Icons.star_border,
-                        color: Colors.amber,
+                    children: [
+                      ...List.generate(
+                        5,
+                        (i) => Icon(
+                          i < recipe.rating.toInt()
+                              ? Icons.star
+                              : Icons.star_border,
+                          color: Colors.amber,
+                          size: 22,
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      Text(
+                        "(${recipe.reviewCount} Reviews)",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 6),
-                  Text("(${recipe.reviewCount} Reviews)"),
-
-                  const SizedBox(height: 20),
-
-                  // Quick Info
+                  const SizedBox(height: 16),
                   QuickInfoSection(recipe: recipe),
-
-                  const SizedBox(height: 30),
-
-                  // Show / Hide Details
-                  Center(
-                    child: ElevatedButton.icon(
-                      icon: Icon(
-                        controller.showDetails
-                            ? Icons.expand_less
-                            : Icons.expand_more,
-                      ),
-                      label: Text(
-                        controller.showDetails
-                            ? "Hide Details"
-                            : "Show Details",
-                      ),
-                      onPressed: () => controller.toggleDetails(),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.redAccent,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
+                  const SizedBox(height: 16),
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 500),
-                    child: controller.showDetails
-                        ? DetailsSection(recipe: recipe)
-                        : const SizedBox(),
+                    transitionBuilder: (child, animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0, 0.05),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: DetailsSection(recipe: recipe),
                   ),
-
-                  const SizedBox(height: 30),
-
-                  const Text(
-                    "You may also like",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepOrange,
+                  const SizedBox(height: 24),
+                  Center(
+                    child: Text(
+                      "You may also like",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange.shade400,
+                        letterSpacing: 0.6,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   SuggestedSection(controller: controller),
                 ],
               ),
