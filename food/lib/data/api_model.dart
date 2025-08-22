@@ -16,6 +16,7 @@ class ApiModel {
   final int reviewCount;
   final List<String> mealType;
   final double price;
+  int quantity;
 
   ApiModel({
     required this.id,
@@ -34,7 +35,7 @@ class ApiModel {
     required this.rating,
     required this.reviewCount,
     required this.mealType,
-
+    this.quantity = 1,
     this.price = 20,
   });
 
@@ -57,6 +58,7 @@ class ApiModel {
       reviewCount: json['reviewCount'] ?? 0,
       mealType: List<String>.from(json['mealType'] ?? []),
       price: (json['price'] ?? 20).toDouble(),
+      quantity: 1,
     );
   }
 }

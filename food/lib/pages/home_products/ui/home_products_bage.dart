@@ -2,16 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:food/data/api_client.dart';
 import 'package:food/data/api_model.dart';
 import 'package:food/pages/Favorites_food/ui/Favorites_food_page.dart';
-
 import 'package:food/pages/home_products/widget/banner_item.dart';
 import 'package:food/pages/home_products/widget/discount_card.dart';
 import 'package:food/pages/home_products/widget/home_actions.dart';
 import 'package:food/pages/home_products/widget/products_list.dart';
 
 class HomeProductsPage extends StatefulWidget {
+  final List<ApiModel> recipes;
+  final Set<int> favoritesSet;
+  final void Function(int index) toggleFavorite;
   final Function(ApiModel) onCartAdded;
 
-  const HomeProductsPage({super.key, required this.onCartAdded});
+  const HomeProductsPage({
+    super.key,
+    required this.onCartAdded,
+    required this.recipes,
+    required this.favoritesSet,
+    required this.toggleFavorite,
+  });
 
   @override
   State<HomeProductsPage> createState() => _HomeProductsPageState();
@@ -20,9 +28,7 @@ class HomeProductsPage extends StatefulWidget {
 class _HomeProductsPageState extends State<HomeProductsPage>
     with TickerProviderStateMixin {
   final ApiClient apiClient = ApiClient();
-  List<ApiModel> recipes = [];
   bool isLoading = true;
-  final Set<int> favorites = {};
   bool showMenu = false;
 
   late AnimationController _controller;
@@ -66,30 +72,35 @@ class _HomeProductsPageState extends State<HomeProductsPage>
   Future<void> fetchData() async {
     try {
       final data = await apiClient.fetchRecipes();
+      if (!mounted) return;
       setState(() {
-        recipes = data;
+        widget.recipes.addAll(data);
         isLoading = false;
       });
     } catch (_) {
+      if (!mounted) return;
       setState(() => isLoading = false);
     }
   }
 
-  void toggleFavorite(int i) => setState(
-    () => favorites.contains(i) ? favorites.remove(i) : favorites.add(i),
-  );
-
-  void toggleMenu() => setState(() {
-    if (showMenu) {
-      _controller.reverse();
-    } else {
-      _controller.forward();
-    }
-    showMenu = !showMenu;
-  });
+  void toggleMenu() {
+    if (!mounted) return;
+    setState(() {
+      if (showMenu) {
+        _controller.reverse();
+      } else {
+        _controller.forward();
+      }
+      showMenu = !showMenu;
+    });
+  }
 
   void goToFavorites() {
-    List<ApiModel> favoriteRecipes = favorites.map((i) => recipes[i]).toList();
+    if (!mounted) return;
+    List<ApiModel> favoriteRecipes = widget.favoritesSet
+        .where((i) => i < widget.recipes.length)
+        .map((i) => widget.recipes[i])
+        .toList();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -97,10 +108,14 @@ class _HomeProductsPageState extends State<HomeProductsPage>
           favoriteRecipes: favoriteRecipes,
           toggleFavorite: (recipeIndex) {
             setState(() {
-              int recipeId = recipes.indexOf(favoriteRecipes[recipeIndex]);
-              favorites.remove(recipeId);
+              int recipeId = widget.recipes.indexOf(
+                favoriteRecipes[recipeIndex],
+              );
+              widget.favoritesSet.remove(recipeId);
             });
           },
+          recipes: widget.recipes,
+          favorites: widget.favoritesSet,
         ),
       ),
     );
@@ -109,6 +124,10 @@ class _HomeProductsPageState extends State<HomeProductsPage>
   @override
   Widget build(BuildContext context) {
     if (isLoading) return const Center(child: CircularProgressIndicator());
+
+    if (widget.recipes.isEmpty) {
+      return const Center(child: Text("No products available"));
+    }
 
     return Column(
       children: [
@@ -148,9 +167,9 @@ class _HomeProductsPageState extends State<HomeProductsPage>
                 ? ListView.builder(
                     key: const ValueKey(1),
                     padding: const EdgeInsets.all(12),
-                    itemCount: recipes.length,
+                    itemCount: widget.recipes.length,
                     itemBuilder: (context, index) {
-                      final recipe = recipes[index];
+                      final recipe = widget.recipes[index];
 
                       return TweenAnimationBuilder(
                         duration: Duration(milliseconds: 300 + (index * 100)),
@@ -166,11 +185,11 @@ class _HomeProductsPageState extends State<HomeProductsPage>
                         },
                         child: ProductsList(
                           recipes: [recipe],
-                          favorites: favorites,
+                          favorites: widget.favoritesSet,
                           fadeAnimation: _fadeAnimation,
                           slideAnimation: _slideAnimation,
                           onCartAdded: widget.onCartAdded,
-                          toggleFavorite: toggleFavorite,
+                          toggleFavorite: widget.toggleFavorite,
                         ),
                       );
                     },

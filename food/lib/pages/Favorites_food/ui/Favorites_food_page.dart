@@ -4,34 +4,33 @@ import 'package:flutter/material.dart';
 import 'package:food/data/api_model.dart';
 import 'package:food/pages/product_details/product_details_page.dart';
 
-class FavoritesPage extends StatelessWidget {
-  final List<ApiModel> favoriteRecipes;
+class FavoritesPage extends StatefulWidget {
+  final List<ApiModel> recipes;
+  final Set<int> favorites; // تمرير الـ Set نفسها
   final void Function(int index) toggleFavorite;
 
   const FavoritesPage({
     super.key,
-    required this.favoriteRecipes,
+    required this.recipes,
+    required this.favorites,
     required this.toggleFavorite,
+    required List favoriteRecipes,
   });
 
   @override
+  State<FavoritesPage> createState() => _FavoritesPageState();
+}
+
+class _FavoritesPageState extends State<FavoritesPage> {
+  @override
   Widget build(BuildContext context) {
+    final favoriteRecipes = widget.favorites
+        .map((i) => widget.recipes[i])
+        .toList();
+
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7F7),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 2,
-        centerTitle: true,
-        title: const Text(
-          "My Favorites",
-          style: TextStyle(
-            color: Colors.redAccent,
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
-        ),
-        foregroundColor: Colors.redAccent,
-      ),
+
       body: favoriteRecipes.isEmpty
           ? const Center(
               child: Text(
@@ -90,7 +89,13 @@ class FavoritesPage extends StatelessWidget {
                                   right: 8,
                                   top: 8,
                                   child: GestureDetector(
-                                    onTap: () => toggleFavorite(index),
+                                    onTap: () {
+                                      // تعديل المفضلة
+                                      widget.toggleFavorite(
+                                        widget.favorites.elementAt(index),
+                                      );
+                                      setState(() {}); // تحديث الصفحة فورياً
+                                    },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
