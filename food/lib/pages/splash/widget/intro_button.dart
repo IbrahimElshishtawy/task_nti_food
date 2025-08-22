@@ -12,12 +12,7 @@ class _IntroButtonState extends State<IntroButton> {
   Color bgColor = Colors.white;
   late Timer _timer;
 
-  final List<Color> colors = [
-    Colors.white,
-    Colors.yellowAccent,
-    Colors.orangeAccent,
-    const Color.fromARGB(255, 221, 88, 12),
-  ];
+  final List<Color> colors = [Colors.white, Colors.yellowAccent];
 
   int index = 0;
 

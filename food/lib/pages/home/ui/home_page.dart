@@ -3,7 +3,8 @@ import 'package:food/data/api_model.dart';
 import 'package:food/pages/Favorites_food/ui/Favorites_food_page.dart';
 import 'package:food/pages/Search/Search_Page.dart';
 import 'package:food/pages/home_products/ui/home_products_bage.dart';
-import 'package:food/pages/cart/cart_page.dart'; // <-- تأكد من المسار الصحيح
+import 'package:food/pages/cart/cart_page.dart';
+import 'package:food/pages/setting/SettingsPage.dart'; // <-- تأكد من المسار الصحيح
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> {
         onCartAdded: addToCart,
       ),
       SearchPage(recipes: recipes),
-      const Center(child: Text("Settings Page")),
+      const SettingsPage(),
     ];
 
     return Scaffold(
