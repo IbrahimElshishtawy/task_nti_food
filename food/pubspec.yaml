@@ -40,6 +40,8 @@ dependencies:
   dio: ^5.9.0
   flutter_rating_bar: ^4.0.1
   animated_bottom_navigation_bar: ^1.4.0
+  google_maps_flutter: ^2.12.3
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +74,7 @@ flutter:
     - assets/image/food1.jpeg
     - assets/image/food2.jpeg
     - assets/image/foodpeple.png
+    - assets/image/location.jpeg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

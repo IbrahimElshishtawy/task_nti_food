@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food/pages/location/Location_Page.dart';
 import 'package:food/pages/wheel/wheel_page.dart';
+
 import 'action_button.dart';
 
 class HomeActions extends StatelessWidget {
@@ -20,6 +22,15 @@ class HomeActions extends StatelessWidget {
     ).then((_) => wheelController.repeat());
   }
 
+  void goToLocationPage(BuildContext ctx) {
+    Navigator.push(
+      ctx,
+      MaterialPageRoute(
+        builder: (_) => const LocationPage(),
+      ), // ✅ الانتقال لصفحة الموقع
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,7 +39,11 @@ class HomeActions extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           actionButton(Icons.restaurant_menu, "Menu", toggleMenu),
-          actionButton(Icons.location_on, "Location", () {}),
+          actionButton(
+            Icons.location_on,
+            "Location",
+            () => goToLocationPage(context),
+          ), // ✅ تحديث الضغط
           actionButton(Icons.event_seat, "Reserve Table", () {}),
           Column(
             children: [

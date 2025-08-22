@@ -88,7 +88,8 @@ class _HomeProductsPageState extends State<HomeProductsPage>
   @override
   Widget build(BuildContext context) {
     if (isLoading) return const Center(child: CircularProgressIndicator());
-    return ListView(
+
+    return Column(
       children: [
         SizedBox(
           height: 150,
@@ -101,19 +102,63 @@ class _HomeProductsPageState extends State<HomeProductsPage>
           ),
         ),
         const SizedBox(height: 16),
+
         _buildDiscounts(),
         const SizedBox(height: 16),
+
         HomeActions(toggleMenu: toggleMenu, wheelController: _wheelController),
         const SizedBox(height: 20),
-        if (showMenu)
-          ProductsList(
-            recipes: recipes,
-            favorites: favorites,
-            fadeAnimation: _fadeAnimation,
-            slideAnimation: _slideAnimation,
-            onCartAdded: widget.onCartAdded,
-            toggleFavorite: toggleFavorite,
+
+        Expanded(
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 900),
+            transitionBuilder: (child, animation) {
+              final slide = Tween<Offset>(
+                begin: const Offset(-0.2, 0), // ✅ من اليسار
+                end: Offset.zero,
+              ).animate(animation);
+              return FadeTransition(
+                opacity: animation,
+                child: SlideTransition(position: slide, child: child),
+              );
+            },
+            child: showMenu
+                ? ListView.builder(
+                    key: const ValueKey(1),
+                    padding: const EdgeInsets.all(12),
+                    itemCount: recipes.length,
+                    itemBuilder: (context, index) {
+                      final recipe = recipes[index];
+
+                      return TweenAnimationBuilder(
+                        duration: Duration(milliseconds: 300 + (index * 100)),
+                        tween: Tween<double>(begin: 0, end: 1),
+                        builder: (context, value, child) {
+                          return Opacity(
+                            opacity: value,
+                            child: Transform.translate(
+                              offset: Offset(
+                                -50 * (1 - value), // ✅ شمال → يمين
+                                0,
+                              ),
+                              child: child,
+                            ),
+                          );
+                        },
+                        child: ProductsList(
+                          recipes: [recipe],
+                          favorites: favorites,
+                          fadeAnimation: _fadeAnimation,
+                          slideAnimation: _slideAnimation,
+                          onCartAdded: widget.onCartAdded,
+                          toggleFavorite: toggleFavorite,
+                        ),
+                      );
+                    },
+                  )
+                : const SizedBox(key: ValueKey(2)),
           ),
+        ),
       ],
     );
   }
