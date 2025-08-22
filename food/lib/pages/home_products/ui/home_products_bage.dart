@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:food/data/api_client.dart';
 import 'package:food/data/api_model.dart';
-import 'package:food/pages/home/widget/product_card.dart';
-import 'package:food/pages/product_details/product_details_page.dart';
+import 'package:food/pages/home_products/widget/banner_item.dart';
+import 'package:food/pages/home_products/widget/discount_card.dart';
+import 'package:food/pages/home_products/widget/home_actions.dart';
+import 'package:food/pages/home_products/widget/products_list.dart';
 
 class HomeProductsPage extends StatefulWidget {
   final Function(ApiModel) onCartAdded;
-
   const HomeProductsPage({super.key, required this.onCartAdded});
 
   @override
@@ -14,42 +15,48 @@ class HomeProductsPage extends StatefulWidget {
 }
 
 class _HomeProductsPageState extends State<HomeProductsPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   final ApiClient apiClient = ApiClient();
   List<ApiModel> recipes = [];
   bool isLoading = true;
   final Set<int> favorites = {};
+  bool showMenu = false;
 
-  bool showMenu = false; // 🔹 control menu visibility
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+  late AnimationController _wheelController;
 
   @override
   void initState() {
     super.initState();
     fetchData();
+    _initAnimations();
+  }
 
-    // 🔹 Animation controller
+  void _initAnimations() {
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-
     _fadeAnimation = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     );
-
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.1),
+    _slideAnimation = Tween(
+      begin: const Offset(0, .1),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _wheelController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _wheelController.dispose();
     super.dispose();
   }
 
@@ -60,44 +67,29 @@ class _HomeProductsPageState extends State<HomeProductsPage>
         recipes = data;
         isLoading = false;
       });
-    } catch (e) {
-      debugPrint("Error fetching recipes: $e");
-      setState(() {
-        isLoading = false;
-      });
+    } catch (_) {
+      setState(() => isLoading = false);
     }
   }
 
-  void toggleFavorite(int index) {
-    setState(() {
-      if (favorites.contains(index)) {
-        favorites.remove(index);
-      } else {
-        favorites.add(index);
-      }
-    });
-  }
+  void toggleFavorite(int i) => setState(
+    () => favorites.contains(i) ? favorites.remove(i) : favorites.add(i),
+  );
 
-  void toggleMenu() {
-    setState(() {
-      showMenu = !showMenu;
-      if (showMenu) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
-    });
-  }
+  void toggleMenu() => setState(() {
+    if (showMenu) {
+      _controller.reverse();
+    } else {
+      _controller.forward();
+    }
+    showMenu = !showMenu;
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
+    if (isLoading) return const Center(child: CircularProgressIndicator());
     return ListView(
       children: [
-        /// 🔹 Slider banners
         SizedBox(
           height: 150,
           child: PageView(
@@ -109,156 +101,39 @@ class _HomeProductsPageState extends State<HomeProductsPage>
           ),
         ),
         const SizedBox(height: 16),
-
-        /// 🔹 Discounts scroll
-        SizedBox(
-          height: 120,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              discountCard(
-                "assets/image/foodpeple.png",
-                "Discount for the first 10 reservations",
-              ),
-              discountCard("assets/image/food1.jpeg", "Pizza special discount"),
-              discountCard("assets/image/food2.jpeg", "Drinks discount offer"),
-              discountCard(
-                "assets/image/foodpeple.png",
-                "Discount on large tables (7+ people)",
-              ),
-            ],
-          ),
-        ),
+        _buildDiscounts(),
         const SizedBox(height: 16),
-
-        /// 🔹 4 buttons (Menu - Location - Reservation - Dish of the day)
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              actionButton(Icons.restaurant_menu, "Menu", toggleMenu),
-              actionButton(Icons.location_on, "Location", () {
-                debugPrint("Restaurant location");
-              }),
-              actionButton(Icons.event_seat, "Reserve Table", () {
-                debugPrint("Reserve table");
-              }),
-              actionButton(Icons.local_dining, "Dish of the Day", () {
-                debugPrint("Dish of the day");
-              }),
-            ],
-          ),
-        ),
+        HomeActions(toggleMenu: toggleMenu, wheelController: _wheelController),
         const SizedBox(height: 20),
-
-        /// 🔹 Products list with animation
         if (showMenu)
-          FadeTransition(
-            opacity: _fadeAnimation,
-            child: SlideTransition(
-              position: _slideAnimation,
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: recipes.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              ProductDetailsPage(recipe: recipes[index]),
-                        ),
-                      );
-                    },
-                    child: ProductCard(
-                      recipe: recipes[index],
-                      index: index,
-                      favorites: favorites,
-                      addToCart: widget.onCartAdded,
-                      toggleFavorite: toggleFavorite,
-                    ),
-                  );
-                },
-              ),
-            ),
+          ProductsList(
+            recipes: recipes,
+            favorites: favorites,
+            fadeAnimation: _fadeAnimation,
+            slideAnimation: _slideAnimation,
+            onCartAdded: widget.onCartAdded,
+            toggleFavorite: toggleFavorite,
           ),
       ],
     );
   }
 
-  /// 🔹 Banner item
-  Widget bannerItem(String imagePath) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Image.asset(imagePath, fit: BoxFit.cover),
-      ),
-    );
-  }
-
-  /// 🔹 Discount card (image + text)
-  Widget discountCard(String imagePath, String text) {
-    return Container(
-      width: 200,
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: BoxDecoration(
-        color: Colors.orange.shade100,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              bottomLeft: Radius.circular(16),
-            ),
-            child: Image.asset(
-              imagePath,
-              width: 80,
-              height: 120,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.redAccent,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// 🔹 Action button (icon + text)
-  Widget actionButton(IconData icon, String title, VoidCallback onTap) {
-    return Column(
+  Widget _buildDiscounts() => SizedBox(
+    height: 120,
+    child: ListView(
+      scrollDirection: Axis.horizontal,
       children: [
-        InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(40),
-          child: CircleAvatar(
-            radius: 28,
-            backgroundColor: Colors.redAccent.withOpacity(0.1),
-            child: Icon(icon, color: Colors.redAccent, size: 28),
-          ),
+        discountCard(
+          "assets/image/foodpeple.png",
+          "Discount for the first 10 reservations",
         ),
-        const SizedBox(height: 6),
-        Text(
-          title,
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        discountCard("assets/image/food1.jpeg", "Pizza special discount"),
+        discountCard("assets/image/food2.jpeg", "Drinks discount offer"),
+        discountCard(
+          "assets/image/foodpeple.png",
+          "Discount on large tables (7+ people)",
         ),
       ],
-    );
-  }
+    ),
+  );
 }
