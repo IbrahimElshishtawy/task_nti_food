@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food/pages/Table_Booking/Table_Booking_Page.dart';
 import 'package:food/pages/location/Location_Page.dart';
 import 'package:food/pages/wheel/wheel_page.dart';
 
@@ -25,9 +26,14 @@ class HomeActions extends StatelessWidget {
   void goToLocationPage(BuildContext ctx) {
     Navigator.push(
       ctx,
-      MaterialPageRoute(
-        builder: (_) => const LocationPage(),
-      ), // ✅ الانتقال لصفحة الموقع
+      MaterialPageRoute(builder: (_) => const LocationPage()),
+    );
+  }
+
+  void goToTableBookingPage(BuildContext ctx) {
+    Navigator.push(
+      ctx,
+      MaterialPageRoute(builder: (_) => const TableBookingPage()),
     );
   }
 
@@ -43,8 +49,12 @@ class HomeActions extends StatelessWidget {
             Icons.location_on,
             "Location",
             () => goToLocationPage(context),
-          ), // ✅ تحديث الضغط
-          actionButton(Icons.event_seat, "Reserve Table", () {}),
+          ),
+          actionButton(
+            Icons.event_seat,
+            "Reserve Table",
+            () => goToTableBookingPage(context),
+          ),
           Column(
             children: [
               InkWell(

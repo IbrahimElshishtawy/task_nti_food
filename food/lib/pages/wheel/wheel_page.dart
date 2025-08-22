@@ -59,7 +59,6 @@ class _WheelPageState extends State<WheelPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final wheelSize = MediaQuery.of(context).size.width * 0.95;
 
-    // تحميل الصور
     if (wheelController.images.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.white,
