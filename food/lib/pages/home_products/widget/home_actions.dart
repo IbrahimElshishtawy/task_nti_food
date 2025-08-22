@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:food/pages/Table_Booking/Table_Booking_Page.dart';
 import 'package:food/pages/location/Location_Page.dart';
@@ -13,6 +15,7 @@ class HomeActions extends StatelessWidget {
     super.key,
     required this.toggleMenu,
     required this.wheelController,
+    required void Function() goToFavorites,
   });
 
   void goToWheelPage(BuildContext ctx) {

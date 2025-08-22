@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food/data/api_client.dart';
 import 'package:food/data/api_model.dart';
+import 'package:food/pages/Favorites_food/ui/Favorites_food_page.dart';
+
 import 'package:food/pages/home_products/widget/banner_item.dart';
 import 'package:food/pages/home_products/widget/discount_card.dart';
 import 'package:food/pages/home_products/widget/home_actions.dart';
@@ -8,6 +10,7 @@ import 'package:food/pages/home_products/widget/products_list.dart';
 
 class HomeProductsPage extends StatefulWidget {
   final Function(ApiModel) onCartAdded;
+
   const HomeProductsPage({super.key, required this.onCartAdded});
 
   @override
@@ -85,6 +88,24 @@ class _HomeProductsPageState extends State<HomeProductsPage>
     showMenu = !showMenu;
   });
 
+  void goToFavorites() {
+    List<ApiModel> favoriteRecipes = favorites.map((i) => recipes[i]).toList();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => FavoritesPage(
+          favoriteRecipes: favoriteRecipes,
+          toggleFavorite: (recipeIndex) {
+            setState(() {
+              int recipeId = recipes.indexOf(favoriteRecipes[recipeIndex]);
+              favorites.remove(recipeId);
+            });
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) return const Center(child: CircularProgressIndicator());
@@ -102,19 +123,20 @@ class _HomeProductsPageState extends State<HomeProductsPage>
           ),
         ),
         const SizedBox(height: 16),
-
         _buildDiscounts(),
         const SizedBox(height: 16),
-
-        HomeActions(toggleMenu: toggleMenu, wheelController: _wheelController),
+        HomeActions(
+          toggleMenu: toggleMenu,
+          wheelController: _wheelController,
+          goToFavorites: goToFavorites,
+        ),
         const SizedBox(height: 20),
-
         Expanded(
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 900),
             transitionBuilder: (child, animation) {
               final slide = Tween<Offset>(
-                begin: const Offset(-0.2, 0), // ✅ من اليسار
+                begin: const Offset(-0.2, 0),
                 end: Offset.zero,
               ).animate(animation);
               return FadeTransition(
@@ -137,10 +159,7 @@ class _HomeProductsPageState extends State<HomeProductsPage>
                           return Opacity(
                             opacity: value,
                             child: Transform.translate(
-                              offset: Offset(
-                                -50 * (1 - value), // ✅ شمال → يمين
-                                0,
-                              ),
+                              offset: Offset(-50 * (1 - value), 0),
                               child: child,
                             ),
                           );

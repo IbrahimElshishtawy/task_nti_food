@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food/data/api_model.dart';
 import 'package:food/pages/Favorites_food/ui/Favorites_food_page.dart';
+
 import 'package:food/pages/home_products/ui/home_products_bage.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,19 +13,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int cartCount = 0;
-  int currentIndex = 2;
+  int currentIndex = 2; // البداية على الصفحة الرئيسية
   final Set<int> favorites = {};
 
   @override
   Widget build(BuildContext context) {
     final pages = [
-      /// Favorites
-      FavoritesPage(favoriteRecipes: const []),
-
-      /// Cart
+      FavoritesPage(favoriteRecipes: const [], toggleFavorite: (index) {}),
       const Center(child: Text("Cart Page")),
-
-      /// Home Products Page
       HomeProductsPage(
         onCartAdded: (ApiModel recipe) {
           setState(() => cartCount++);
@@ -33,11 +29,7 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
-
-      /// Search
       const Center(child: Text("Search Page")),
-
-      /// Profile
       const Center(child: Text("Profile Page")),
     ];
 
@@ -53,15 +45,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.redAccent,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (_) => const SettingsPage()),
-              // );
-            },
-          ),
+          IconButton(icon: const Icon(Icons.settings), onPressed: () {}),
         ],
       ),
       body: pages[currentIndex],
