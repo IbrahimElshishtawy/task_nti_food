@@ -1,11 +1,18 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:food/data/api_model.dart';
+import 'package:food/pages/cart/cart_page.dart';
 
 class QuickBuySection extends StatelessWidget {
   final ApiModel recipe;
-  const QuickBuySection({super.key, required this.recipe});
+  final List<ApiModel> cartItems; // قائمة السلة الحالية
+  final Function(ApiModel) onCartAdded; // دالة لإضافة المنتج للسلة
+
+  const QuickBuySection({
+    super.key,
+    required this.recipe,
+    required this.cartItems,
+    required this.onCartAdded,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +59,14 @@ class QuickBuySection extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("${recipe.name} has been added to cart"),
+              // إضافة المنتج للسلة
+              onCartAdded(recipe);
+
+              // الذهاب لصفحة CartPage وتمرير السلة الحالية
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartPage(cartItems: cartItems),
                 ),
               );
             },

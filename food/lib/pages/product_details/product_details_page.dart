@@ -6,6 +6,7 @@ import 'package:food/pages/product_details/widget/quick_info_section.dart';
 import 'package:food/pages/product_details/widget/suggested_section.dart';
 import '../../data/api_model.dart';
 import 'controls/product_details_controller.dart';
+import '../cart/cart_page.dart'; // <-- استدعاء صفحة السلة
 
 class ProductDetailsPage extends StatefulWidget {
   final ApiModel recipe;
@@ -20,6 +21,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
   late final AnimationController _controller;
   late final Animation<double> _fadeIn;
   late final ProductDetailsController controller;
+
+  // قائمة السلة المحلية لهذه الصفحة
+  final List<ApiModel> cartItems = [];
 
   @override
   void initState() {
@@ -42,6 +46,46 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
     super.dispose();
   }
 
+  void addToCart(ApiModel product) {
+    setState(() {
+      final existingIndex = cartItems.indexWhere(
+        (item) => item.id == product.id,
+      );
+      if (existingIndex >= 0) {
+        cartItems[existingIndex].quantity++;
+      } else {
+        cartItems.add(
+          ApiModel(
+            id: product.id,
+            name: product.name,
+            ingredients: product.ingredients,
+            instructions: product.instructions,
+            prepTimeMinutes: product.prepTimeMinutes,
+            cookTimeMinutes: product.cookTimeMinutes,
+            servings: product.servings,
+            difficulty: product.difficulty,
+            cuisine: product.cuisine,
+            caloriesPerServing: product.caloriesPerServing,
+            tags: product.tags,
+            userId: product.userId,
+            image: product.image,
+            rating: product.rating,
+            reviewCount: product.reviewCount,
+            mealType: product.mealType,
+            price: product.price,
+            quantity: 1,
+          ),
+        );
+      }
+    });
+
+    // الذهاب إلى صفحة السلة
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CartPage(cartItems: cartItems)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final recipe = widget.recipe;
@@ -51,14 +95,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage>
       body: CustomScrollView(
         slivers: [
           RecipeAppBar(recipe: recipe, fadeIn: _fadeIn),
-
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  QuickBuySection(recipe: recipe),
+                  // تعديل QuickBuySection
+                  QuickBuySection(
+                    recipe: recipe,
+                    cartItems: cartItems,
+                    onCartAdded: addToCart,
+                  ),
                   const SizedBox(height: 20),
                   Row(
                     children: [

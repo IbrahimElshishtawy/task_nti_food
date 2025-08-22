@@ -15,7 +15,7 @@ class DetailsSection extends StatelessWidget {
   }) {
     showModalBottomSheet(
       context: context,
-      isDismissible: false, // ❌ مايتقفلش بالضغط برة
+      isDismissible: false,
       enableDrag: false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
