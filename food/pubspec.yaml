@@ -39,6 +39,7 @@ dependencies:
   http: ^1.5.0
   dio: ^5.9.0
   flutter_rating_bar: ^4.0.1
+  animated_bottom_navigation_bar: ^1.4.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,7 @@ flutter:
     - assets/image/imageintro.png
     - assets/image/introimageapp.jpeg
     - assets/image/introApp.jpeg
+    - assets/image/food1.jpeg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
