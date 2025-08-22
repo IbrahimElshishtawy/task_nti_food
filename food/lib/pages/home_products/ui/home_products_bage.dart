@@ -20,7 +20,7 @@ class _HomeProductsPageState extends State<HomeProductsPage>
   bool isLoading = true;
   final Set<int> favorites = {};
 
-  bool showMenu = false; // 🔹 عشان نتحكم في إظهار/إخفاء المنيو
+  bool showMenu = false; // 🔹 control menu visibility
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -30,7 +30,7 @@ class _HomeProductsPageState extends State<HomeProductsPage>
     super.initState();
     fetchData();
 
-    // 🔹 أنيميشن الكنترولر
+    // 🔹 Animation controller
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
@@ -97,58 +97,62 @@ class _HomeProductsPageState extends State<HomeProductsPage>
 
     return ListView(
       children: [
-        /// 🔹 سلايدر أو بنرات
+        /// 🔹 Slider banners
         SizedBox(
           height: 150,
           child: PageView(
             children: [
               bannerItem("assets/image/food1.jpeg"),
-              bannerItem(
-                "https://via.placeholder.com/400x150.png?text=عرض+خاص",
-              ),
-              bannerItem("https://via.placeholder.com/400x150.png?text=هدية+3"),
+              bannerItem("assets/image/food2.jpeg"),
+              bannerItem("assets/image/foodpeple.png"),
             ],
           ),
         ),
         const SizedBox(height: 16),
 
-        /// 🔹 Scroll للخصومات
+        /// 🔹 Discounts scroll
         SizedBox(
-          height: 60,
+          height: 120,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              discountCard("خصم 20% على البيتزا"),
-              discountCard("عرض 1+1 على البرجر"),
-              discountCard("خصم 15% على السلطات"),
-              discountCard("هدايا مع الطلبات فوق 200ج"),
+              discountCard(
+                "assets/image/foodpeple.png",
+                "Discount for the first 10 reservations",
+              ),
+              discountCard("assets/image/food1.jpeg", "Pizza special discount"),
+              discountCard("assets/image/food2.jpeg", "Drinks discount offer"),
+              discountCard(
+                "assets/image/foodpeple.png",
+                "Discount on large tables (7+ people)",
+              ),
             ],
           ),
         ),
         const SizedBox(height: 16),
 
-        /// 🔹 ٤ أزرار (منيو - مكان - ترابيزة - طبق اليوم)
+        /// 🔹 4 buttons (Menu - Location - Reservation - Dish of the day)
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              actionButton(Icons.restaurant_menu, "المنيو", toggleMenu),
-              actionButton(Icons.location_on, "مكان المطعم", () {
-                debugPrint("مكان المطعم");
+              actionButton(Icons.restaurant_menu, "Menu", toggleMenu),
+              actionButton(Icons.location_on, "Location", () {
+                debugPrint("Restaurant location");
               }),
-              actionButton(Icons.event_seat, "حجز ترابيزة", () {
-                debugPrint("حجز ترابيزة");
+              actionButton(Icons.event_seat, "Reserve Table", () {
+                debugPrint("Reserve table");
               }),
-              actionButton(Icons.local_dining, "طبق اليوم", () {
-                debugPrint("طبق اليوم");
+              actionButton(Icons.local_dining, "Dish of the Day", () {
+                debugPrint("Dish of the day");
               }),
             ],
           ),
         ),
         const SizedBox(height: 20),
 
-        /// 🔹 قائمة المنتجات (بأنيميشن عند فتح المنيو)
+        /// 🔹 Products list with animation
         if (showMenu)
           FadeTransition(
             opacity: _fadeAnimation,
@@ -185,39 +189,58 @@ class _HomeProductsPageState extends State<HomeProductsPage>
     );
   }
 
-  /// 🔹 عنصر البنر
-  Widget bannerItem(String imageUrl) {
+  /// 🔹 Banner item
+  Widget bannerItem(String imagePath) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Image.network(imageUrl, fit: BoxFit.cover),
+        child: Image.asset(imagePath, fit: BoxFit.cover),
       ),
     );
   }
 
-  /// 🔹 كارت خصومات
-  Widget discountCard(String text) {
+  /// 🔹 Discount card (image + text)
+  Widget discountCard(String imagePath, String text) {
     return Container(
+      width: 200,
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.orange.shade100,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
       ),
-      child: Center(
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.redAccent,
-            fontWeight: FontWeight.bold,
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              bottomLeft: Radius.circular(16),
+            ),
+            child: Image.asset(
+              imagePath,
+              width: 80,
+              height: 120,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                text,
+                style: const TextStyle(
+                  color: Colors.redAccent,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  /// 🔹 زرار أكشن (أيقونة + نص)
+  /// 🔹 Action button (icon + text)
   Widget actionButton(IconData icon, String title, VoidCallback onTap) {
     return Column(
       children: [
