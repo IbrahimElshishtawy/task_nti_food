@@ -12,14 +12,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int cartCount = 0;
-  int currentIndex = 2; // 🔹 نخلي الهوم في النص
+  int currentIndex = 2;
   final Set<int> favorites = {};
 
   @override
   Widget build(BuildContext context) {
     final pages = [
       /// Favorites
-      FavoritesPage(favoriteRecipes: const []), // TODO: هنوصلها بالـ favorites
+      FavoritesPage(favoriteRecipes: const []),
+
       /// Cart
       const Center(child: Text("Cart Page")),
 

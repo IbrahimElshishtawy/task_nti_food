@@ -75,6 +75,9 @@ flutter:
     - assets/image/food2.jpeg
     - assets/image/foodpeple.png
     - assets/image/location.jpeg
+    - assets/image/agin.png
+    - assets/image/goodluck.jpeg
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
