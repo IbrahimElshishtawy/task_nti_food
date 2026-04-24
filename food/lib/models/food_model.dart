@@ -39,7 +39,10 @@ class FoodModel {
       imageUrl: '${json['imageUrl'] ?? json['image_url'] ?? ''}',
       price: _toDouble(json['price']),
       rating: _toDouble(json['rating'], fallback: 4.5),
-      reviewCount: _toInt(json['reviewCount'] ?? json['review_count'], fallback: 0),
+      reviewCount: _toInt(
+        json['reviewCount'] ?? json['review_count'],
+        fallback: 0,
+      ),
       prepTime: '${json['prepTime'] ?? json['prep_time'] ?? '25 min'}',
       categoryId: '${json['categoryId'] ?? json['category_id'] ?? ''}',
       ingredients: _stringList(json['ingredients']),

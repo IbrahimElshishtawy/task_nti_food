@@ -5,10 +5,7 @@ import '../controllers/cart_controller.dart';
 import '../routes/app_routes.dart';
 
 class AppBottomNav extends StatelessWidget {
-  const AppBottomNav({
-    super.key,
-    required this.currentIndex,
-  });
+  const AppBottomNav({super.key, required this.currentIndex});
 
   final int currentIndex;
 

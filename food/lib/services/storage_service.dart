@@ -18,10 +18,7 @@ class StorageService extends GetxService {
         .toList();
   }
 
-  Future<void> writeJsonList(
-    String key,
-    List<Map<String, dynamic>> value,
-  ) {
+  Future<void> writeJsonList(String key, List<Map<String, dynamic>> value) {
     return _box.write(key, value);
   }
 }

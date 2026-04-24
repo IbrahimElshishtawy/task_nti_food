@@ -30,25 +30,25 @@ class FoodDetailsView extends GetView<FoodDetailsController> {
           top: false,
           child: switch (state) {
             ViewState.loading => const Padding(
-                padding: EdgeInsets.all(20),
-                child: LoadingShimmer(height: 520, radius: 32),
-              ),
+              padding: EdgeInsets.all(20),
+              child: LoadingShimmer(height: 520, radius: 32),
+            ),
             ViewState.error => EmptyState(
-                icon: Icons.error_outline_rounded,
-                title: 'Meal not available',
-                message: controller.errorMessage.value,
-                actionLabel: 'Back home',
-                onAction: () => Get.back<void>(),
-              ),
+              icon: Icons.error_outline_rounded,
+              title: 'Meal not available',
+              message: controller.errorMessage.value,
+              actionLabel: 'Back home',
+              onAction: () => Get.back<void>(),
+            ),
             _ when food != null => _DetailsContent(
-                food: food,
-                controller: controller,
-              ),
+              food: food,
+              controller: controller,
+            ),
             _ => const EmptyState(
-                icon: Icons.no_food_rounded,
-                title: 'Nothing to show',
-                message: 'This food item could not be loaded.',
-              ),
+              icon: Icons.no_food_rounded,
+              title: 'Nothing to show',
+              message: 'This food item could not be loaded.',
+            ),
           },
         ),
       );
@@ -57,10 +57,7 @@ class FoodDetailsView extends GetView<FoodDetailsController> {
 }
 
 class _DetailsContent extends StatelessWidget {
-  const _DetailsContent({
-    required this.food,
-    required this.controller,
-  });
+  const _DetailsContent({required this.food, required this.controller});
 
   final FoodModel food;
   final FoodDetailsController controller;
@@ -69,7 +66,9 @@ class _DetailsContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[
-        SliverToBoxAdapter(child: _HeroImage(food: food, controller: controller)),
+        SliverToBoxAdapter(
+          child: _HeroImage(food: food, controller: controller),
+        ),
         SliverToBoxAdapter(
           child: TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: 0, end: 1),
@@ -92,16 +91,16 @@ class _DetailsContent extends StatelessWidget {
                   Text(
                     food.name,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.w900,
-                        ),
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     food.description,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          height: 1.55,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      height: 1.55,
+                    ),
                   ),
                   const SizedBox(height: 18),
                   _QuickStats(food: food),
@@ -122,10 +121,7 @@ class _DetailsContent extends StatelessWidget {
 }
 
 class _HeroImage extends StatelessWidget {
-  const _HeroImage({
-    required this.food,
-    required this.controller,
-  });
+  const _HeroImage({required this.food, required this.controller});
 
   final FoodModel food;
   final FoodDetailsController controller;
@@ -143,9 +139,8 @@ class _HeroImage extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: food.imageUrl,
               fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: colorScheme.surfaceContainerHighest,
-              ),
+              placeholder: (context, url) =>
+                  Container(color: colorScheme.surfaceContainerHighest),
               errorWidget: (context, url, error) => Container(
                 color: colorScheme.surfaceContainerHighest,
                 child: const Icon(Icons.fastfood_rounded, size: 48),
@@ -217,7 +212,8 @@ class _HeroImage extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             CurrencyFormatter.format(food.price),
-                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            style: Theme.of(context).textTheme.headlineSmall
+                                ?.copyWith(
                                   color: colorScheme.primary,
                                   fontWeight: FontWeight.w900,
                                 ),
@@ -270,11 +266,7 @@ class _GlassButton extends StatelessWidget {
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onTap,
-        child: SizedBox(
-          width: 48,
-          height: 48,
-          child: Icon(icon, color: color),
-        ),
+        child: SizedBox(width: 48, height: 48, child: Icon(icon, color: color)),
       ),
     );
   }
@@ -358,8 +350,8 @@ class _StatCard extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),
@@ -379,9 +371,9 @@ class _Ingredients extends StatelessWidget {
       children: <Widget>[
         Text(
           'Ingredients',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w900,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
         ),
         const SizedBox(height: 12),
         Wrap(
@@ -419,9 +411,9 @@ class _RatingInput extends StatelessWidget {
         children: <Widget>[
           Text(
             'Rate this meal',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w900,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w900),
           ),
           const SizedBox(height: 12),
           RatingBar.builder(
@@ -431,10 +423,8 @@ class _RatingInput extends StatelessWidget {
             itemSize: 32,
             itemPadding: const EdgeInsets.only(right: 4),
             unratedColor: Theme.of(context).colorScheme.outlineVariant,
-            itemBuilder: (context, index) => const Icon(
-              Icons.star_rounded,
-              color: AppColors.butter,
-            ),
+            itemBuilder: (context, index) =>
+                const Icon(Icons.star_rounded, color: AppColors.butter),
             onRatingUpdate: controller.setRating,
           ),
         ],
@@ -457,9 +447,9 @@ class _Reviews extends StatelessWidget {
       children: <Widget>[
         Text(
           'Reviews',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w900,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
         ),
         const SizedBox(height: 12),
         ...reviews.map((review) => _ReviewTile(review: review)),
@@ -488,8 +478,9 @@ class _ReviewTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           CircleAvatar(
-            backgroundImage:
-            review.avatarUrl.isEmpty ? null : NetworkImage(review.avatarUrl),
+            backgroundImage: review.avatarUrl.isEmpty
+                ? null
+                : NetworkImage(review.avatarUrl),
             child: review.avatarUrl.isEmpty
                 ? Text(review.userName.isEmpty ? '?' : review.userName[0])
                 : null,
@@ -507,7 +498,11 @@ class _ReviewTile extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.w900),
                       ),
                     ),
-                    const Icon(Icons.star_rounded, color: AppColors.butter, size: 18),
+                    const Icon(
+                      Icons.star_rounded,
+                      color: AppColors.butter,
+                      size: 18,
+                    ),
                     Text(
                       review.rating.toStringAsFixed(1),
                       style: const TextStyle(fontWeight: FontWeight.w800),
@@ -532,9 +527,7 @@ class _ReviewTile extends StatelessWidget {
 }
 
 class _BottomActions extends StatelessWidget {
-  const _BottomActions({
-    required this.controller,
-  });
+  const _BottomActions({required this.controller});
 
   final FoodDetailsController controller;
 

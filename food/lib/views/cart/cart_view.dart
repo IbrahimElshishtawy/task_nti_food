@@ -17,9 +17,7 @@ class CartView extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cart'),
-      ),
+      appBar: AppBar(title: const Text('Cart')),
       bottomNavigationBar: const AppBottomNav(currentIndex: 2),
       body: Obx(() {
         if (controller.items.isEmpty) {
@@ -38,7 +36,8 @@ class CartView extends GetView<CartController> {
               child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
                 itemCount: controller.items.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 12),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   return _CartItemCard(item: controller.items[index]);
                 },
@@ -134,8 +133,8 @@ class _CartItemCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
-                      ),
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
                 const SizedBox(height: 7),
                 Text(

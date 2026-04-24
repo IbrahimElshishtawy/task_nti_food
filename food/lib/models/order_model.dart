@@ -122,7 +122,10 @@ class OrderModel {
       paymentMethod: PaymentMethodX.fromApi(
         '${json['paymentMethod'] ?? json['payment_method'] ?? ''}',
       ),
-      createdAt: DateTime.tryParse('${json['createdAt'] ?? json['created_at'] ?? ''}') ??
+      createdAt:
+          DateTime.tryParse(
+            '${json['createdAt'] ?? json['created_at'] ?? ''}',
+          ) ??
           DateTime.now(),
     );
   }

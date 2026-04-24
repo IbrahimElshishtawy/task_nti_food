@@ -22,7 +22,10 @@ class ReviewModel {
       avatarUrl: '${json['avatarUrl'] ?? json['avatar_url'] ?? ''}',
       comment: '${json['comment'] ?? ''}',
       rating: _toDouble(json['rating'], fallback: 5),
-      createdAt: DateTime.tryParse('${json['createdAt'] ?? json['created_at'] ?? ''}') ??
+      createdAt:
+          DateTime.tryParse(
+            '${json['createdAt'] ?? json['created_at'] ?? ''}',
+          ) ??
           DateTime.now(),
     );
   }

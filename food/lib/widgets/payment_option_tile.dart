@@ -39,7 +39,9 @@ class PaymentOptionTile extends StatelessWidget {
               width: 46,
               height: 46,
               decoration: BoxDecoration(
-                color: selected ? colorScheme.primary : colorScheme.surfaceContainerHighest,
+                color: selected
+                    ? colorScheme.primary
+                    : colorScheme.surfaceContainerHighest,
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -51,9 +53,9 @@ class PaymentOptionTile extends StatelessWidget {
             Expanded(
               child: Text(
                 method.label,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
               ),
             ),
             Icon(

@@ -81,11 +81,8 @@ class FoodRepository {
     required String address,
     required PaymentMethod paymentMethod,
   }) async {
-    final subtotal = items.fold<double>(
-      0,
-      (sum, item) => sum + item.lineTotal,
-    );
-    final deliveryFee = items.isEmpty ? 0 : AppConstants.deliveryFee;
+    final subtotal = items.fold<double>(0, (sum, item) => sum + item.lineTotal);
+    final deliveryFee = items.isEmpty ? 0.0 : AppConstants.deliveryFee;
     final payload = <String, dynamic>{
       'items': items.map((item) => item.toOrderJson()).toList(),
       'address': address,
@@ -96,7 +93,10 @@ class FoodRepository {
     };
 
     try {
-      final response = await _apiService.post(ApiEndpoints.orders, data: payload);
+      final response = await _apiService.post(
+        ApiEndpoints.orders,
+        data: payload,
+      );
       return OrderModel.fromJson(_decodeMap(response.data));
     } catch (_) {
       await _shortDelay();

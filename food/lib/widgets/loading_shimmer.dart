@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LoadingShimmer extends StatelessWidget {
-  const LoadingShimmer({
-    super.key,
-    this.height = 180,
-    this.radius = 24,
-  });
+  const LoadingShimmer({super.key, this.height = 180, this.radius = 24});
 
   final double height;
   final double radius;

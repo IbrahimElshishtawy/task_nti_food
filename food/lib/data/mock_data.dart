@@ -247,9 +247,7 @@ class MockData {
       ),
       OrderModel(
         id: 'ORD-1037',
-        items: <CartItemModel>[
-          CartItemModel(food: foods[0], quantity: 2),
-        ],
+        items: <CartItemModel>[CartItemModel(food: foods[0], quantity: 2)],
         subtotal: foods[0].price * 2,
         deliveryFee: 4.99,
         total: (foods[0].price * 2) + 4.99,

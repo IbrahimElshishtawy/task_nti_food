@@ -4,10 +4,7 @@ import '../models/order_model.dart';
 import '../theme/app_colors.dart';
 
 class OrderStatusChip extends StatelessWidget {
-  const OrderStatusChip({
-    super.key,
-    required this.status,
-  });
+  const OrderStatusChip({super.key, required this.status});
 
   final OrderStatus status;
 

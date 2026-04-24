@@ -87,23 +87,27 @@ class _HomeHeader extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Good morning, ${AppConstants.defaultUserName}',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w900,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
               ),
               const SizedBox(height: 7),
               Row(
                 children: <Widget>[
-                  Icon(Icons.location_on_rounded, size: 18, color: colorScheme.primary),
+                  Icon(
+                    Icons.location_on_rounded,
+                    size: 18,
+                    color: colorScheme.primary,
+                  ),
                   const SizedBox(width: 5),
                   Flexible(
                     child: Text(
                       'Deliver to ${AppConstants.defaultDeliveryLocation}',
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        color: colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -258,9 +262,9 @@ class _AdCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                      ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
                 const SizedBox(height: 7),
                 Text(
@@ -291,7 +295,8 @@ class _CategoryStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (controller.state.value == ViewState.loading && controller.categories.isEmpty) {
+    if (controller.state.value == ViewState.loading &&
+        controller.categories.isEmpty) {
       return const LoadingShimmer(height: 76, radius: 24);
     }
 
@@ -454,7 +459,11 @@ class _FoodGrid extends StatelessWidget {
       sliver: SliverLayoutBuilder(
         builder: (context, constraints) {
           final width = constraints.crossAxisExtent;
-          final crossAxisCount = width >= 820 ? 4 : width >= 620 ? 3 : 2;
+          final crossAxisCount = width >= 820
+              ? 4
+              : width >= 620
+              ? 3
+              : 2;
           return SliverGrid.builder(
             itemCount: foods.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

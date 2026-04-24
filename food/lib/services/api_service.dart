@@ -5,17 +5,17 @@ import '../core/constants/api_endpoints.dart';
 
 class ApiService extends GetxService {
   ApiService()
-      : _dio = Dio(
-          BaseOptions(
-            baseUrl: ApiEndpoints.baseUrl,
-            connectTimeout: const Duration(seconds: 8),
-            receiveTimeout: const Duration(seconds: 10),
-            headers: const <String, dynamic>{
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-          ),
-        );
+    : _dio = Dio(
+        BaseOptions(
+          baseUrl: ApiEndpoints.baseUrl,
+          connectTimeout: const Duration(seconds: 8),
+          receiveTimeout: const Duration(seconds: 10),
+          headers: const <String, dynamic>{
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
 
   final Dio _dio;
 
@@ -48,10 +48,7 @@ class ApiService extends GetxService {
 }
 
 class ApiException implements Exception {
-  const ApiException({
-    required this.message,
-    this.statusCode,
-  });
+  const ApiException({required this.message, this.statusCode});
 
   final String message;
   final int? statusCode;
@@ -65,10 +62,7 @@ class ApiException implements Exception {
       message = '${data['message']}';
     }
 
-    return ApiException(
-      message: message,
-      statusCode: response?.statusCode,
-    );
+    return ApiException(message: message, statusCode: response?.statusCode);
   }
 
   @override

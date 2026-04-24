@@ -16,9 +16,7 @@ class FavoritesView extends GetView<FavoritesController> {
     final cartController = Get.find<CartController>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Favorites'),
-      ),
+      appBar: AppBar(title: const Text('Favorites')),
       bottomNavigationBar: const AppBottomNav(currentIndex: 1),
       body: Obx(() {
         if (controller.favorites.isEmpty) {

@@ -46,7 +46,7 @@ class _Food3DCardState extends State<Food3DCard> {
           ..setEntry(3, 2, 0.0012)
           ..rotateX(_pressed ? 0.025 : -0.035)
           ..rotateY(_pressed ? -0.025 : 0.045)
-          ..translate(0.0, _pressed ? 5.0 : 0.0),
+          ..scale(_pressed ? .985 : 1.0),
         decoration: BoxDecoration(
           color: colorScheme.surface,
           borderRadius: BorderRadius.circular(28),
@@ -115,17 +115,24 @@ class _Food3DCardState extends State<Food3DCard> {
                                   },
                                   placeholder: (context, url) => Container(
                                     decoration: BoxDecoration(
-                                      color: colorScheme.surfaceContainerHighest,
+                                      color:
+                                          colorScheme.surfaceContainerHighest,
                                       borderRadius: BorderRadius.circular(28),
                                     ),
                                   ),
-                                  errorWidget: (context, url, error) => Container(
-                                    decoration: BoxDecoration(
-                                      color: colorScheme.surfaceContainerHighest,
-                                      borderRadius: BorderRadius.circular(28),
-                                    ),
-                                    child: const Icon(Icons.fastfood_rounded),
-                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: colorScheme
+                                              .surfaceContainerHighest,
+                                          borderRadius: BorderRadius.circular(
+                                            28,
+                                          ),
+                                        ),
+                                        child: const Icon(
+                                          Icons.fastfood_rounded,
+                                        ),
+                                      ),
                                 ),
                               ),
                             ),
@@ -152,13 +159,17 @@ class _Food3DCardState extends State<Food3DCard> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w900,
-                          ),
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                     const SizedBox(height: 7),
                     Row(
                       children: <Widget>[
-                        const Icon(Icons.star_rounded, color: AppColors.butter, size: 18),
+                        const Icon(
+                          Icons.star_rounded,
+                          color: AppColors.butter,
+                          size: 18,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           widget.food.rating.toStringAsFixed(1),
@@ -190,7 +201,8 @@ class _Food3DCardState extends State<Food3DCard> {
                         Expanded(
                           child: Text(
                             CurrencyFormatter.format(widget.food.price),
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
                                   color: colorScheme.primary,
                                   fontWeight: FontWeight.w900,
                                 ),
@@ -231,7 +243,9 @@ class _CircleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: background ?? Theme.of(context).colorScheme.surface.withValues(alpha: .92),
+      color:
+          background ??
+          Theme.of(context).colorScheme.surface.withValues(alpha: .92),
       shape: const CircleBorder(),
       child: InkWell(
         customBorder: const CircleBorder(),

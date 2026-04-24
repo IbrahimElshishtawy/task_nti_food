@@ -26,7 +26,10 @@ class PriceSummary extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          _SummaryRow(label: 'Subtotal', value: CurrencyFormatter.format(subtotal)),
+          _SummaryRow(
+            label: 'Subtotal',
+            value: CurrencyFormatter.format(subtotal),
+          ),
           const SizedBox(height: 10),
           _SummaryRow(
             label: 'Delivery fee',

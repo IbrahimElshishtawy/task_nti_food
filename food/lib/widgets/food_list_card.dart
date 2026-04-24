@@ -71,8 +71,8 @@ class FoodListCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w900,
-                        ),
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                   const SizedBox(height: 5),
                   Text(
@@ -80,13 +80,17 @@ class FoodListCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
+                      color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Row(
                     children: <Widget>[
-                      const Icon(Icons.star_rounded, color: AppColors.butter, size: 17),
+                      const Icon(
+                        Icons.star_rounded,
+                        color: AppColors.butter,
+                        size: 17,
+                      ),
                       const SizedBox(width: 3),
                       Text(
                         food.rating.toStringAsFixed(1),

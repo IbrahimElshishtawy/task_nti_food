@@ -1,20 +1,14 @@
 import 'food_model.dart';
 
 class CartItemModel {
-  const CartItemModel({
-    required this.food,
-    required this.quantity,
-  });
+  const CartItemModel({required this.food, required this.quantity});
 
   final FoodModel food;
   final int quantity;
 
   double get lineTotal => food.price * quantity;
 
-  CartItemModel copyWith({
-    FoodModel? food,
-    int? quantity,
-  }) {
+  CartItemModel copyWith({FoodModel? food, int? quantity}) {
     return CartItemModel(
       food: food ?? this.food,
       quantity: quantity ?? this.quantity,
@@ -25,17 +19,16 @@ class CartItemModel {
     final foodJson = json['food'];
     return CartItemModel(
       food: FoodModel.fromJson(
-        foodJson is Map ? Map<String, dynamic>.from(foodJson) : <String, dynamic>{},
+        foodJson is Map
+            ? Map<String, dynamic>.from(foodJson)
+            : <String, dynamic>{},
       ),
       quantity: _toInt(json['quantity'], fallback: 1),
     );
   }
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'food': food.toJson(),
-      'quantity': quantity,
-    };
+    return <String, dynamic>{'food': food.toJson(), 'quantity': quantity};
   }
 
   Map<String, dynamic> toOrderJson() {

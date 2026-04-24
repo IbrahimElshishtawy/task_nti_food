@@ -19,9 +19,7 @@ class SearchView extends GetView<FoodSearchController> {
     final cartController = Get.find<CartController>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search'),
-      ),
+      appBar: AppBar(title: const Text('Search')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
@@ -49,8 +47,10 @@ class SearchView extends GetView<FoodSearchController> {
                     case ViewState.loading:
                       return ListView.separated(
                         itemCount: 5,
-                        separatorBuilder: (context, index) => const SizedBox(height: 12),
-                        itemBuilder: (context, index) => const LoadingShimmer(height: 118),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 12),
+                        itemBuilder: (context, index) =>
+                            const LoadingShimmer(height: 118),
                       );
                     case ViewState.empty:
                       return const EmptyState(
@@ -68,14 +68,18 @@ class SearchView extends GetView<FoodSearchController> {
                       return ListView.separated(
                         padding: const EdgeInsets.only(bottom: 24),
                         itemCount: controller.results.length,
-                        separatorBuilder: (context, index) => const SizedBox(height: 12),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           final food = controller.results[index];
                           return Obx(
                             () => FoodListCard(
                               food: food,
-                              isFavorite: favoritesController.isFavorite(food.id),
-                              onFavorite: () => favoritesController.toggleFavorite(food),
+                              isFavorite: favoritesController.isFavorite(
+                                food.id,
+                              ),
+                              onFavorite: () =>
+                                  favoritesController.toggleFavorite(food),
                               onCart: () => cartController.addItem(food),
                             ),
                           );

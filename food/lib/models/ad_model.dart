@@ -21,7 +21,8 @@ class AdModel {
       title: '${json['title'] ?? ''}',
       subtitle: '${json['subtitle'] ?? ''}',
       imageUrl: '${json['imageUrl'] ?? json['image_url'] ?? ''}',
-      actionLabel: '${json['actionLabel'] ?? json['action_label'] ?? 'Order now'}',
+      actionLabel:
+          '${json['actionLabel'] ?? json['action_label'] ?? 'Order now'}',
       foodId: json['foodId'] == null && json['food_id'] == null
           ? null
           : '${json['foodId'] ?? json['food_id']}',
