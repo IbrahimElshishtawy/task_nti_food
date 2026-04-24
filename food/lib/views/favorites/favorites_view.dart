@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import '../../controllers/cart_controller.dart';
 import '../../controllers/favorites_controller.dart';
+import '../../controllers/navigation_controller.dart';
 import '../../routes/app_routes.dart';
-import '../../widgets/app_bottom_nav.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/food_list_card.dart';
 
@@ -16,21 +16,26 @@ class FavoritesView extends GetView<FavoritesController> {
     final cartController = Get.find<CartController>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Favorites')),
-      bottomNavigationBar: const AppBottomNav(currentIndex: 1),
+      appBar: AppBar(title: Text('favorites'.tr)),
       body: Obx(() {
         if (controller.favorites.isEmpty) {
           return EmptyState(
             icon: Icons.favorite_border_rounded,
-            title: 'No favorites yet',
-            message: 'Save meals you love and they will appear here.',
-            actionLabel: 'Browse meals',
-            onAction: () => Get.offNamed(AppRoutes.home),
+            title: 'no_favorites'.tr,
+            message: 'no_favorites_message'.tr,
+            actionLabel: 'home'.tr,
+            onAction: () {
+              if (Get.isRegistered<NavigationController>()) {
+                Get.find<NavigationController>().changeTab(0);
+              } else {
+                Get.offNamed(AppRoutes.home);
+              }
+            },
           );
         }
 
         return ListView.separated(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 126),
           itemCount: controller.favorites.length,
           separatorBuilder: (context, index) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
@@ -46,12 +51,12 @@ class FavoritesView extends GetView<FavoritesController> {
                   IconButton(
                     onPressed: () => controller.removeFavorite(food.id),
                     icon: const Icon(Icons.delete_outline_rounded),
-                    tooltip: 'Remove',
+                    tooltip: 'remove'.tr,
                   ),
                   IconButton.filled(
                     onPressed: () => cartController.addItem(food),
                     icon: const Icon(Icons.add_shopping_cart_rounded),
-                    tooltip: 'Add to cart',
+                    tooltip: 'add_to_cart'.tr,
                   ),
                 ],
               ),

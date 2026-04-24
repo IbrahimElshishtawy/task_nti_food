@@ -12,5 +12,10 @@ class AppConstants {
     'Pasta',
     'Chicken',
     'Dessert',
+    'Coffee',
+    'Juice',
+    'Healthy',
+    'Shawarma',
+    'Ice Cream',
   ];
 }

@@ -6,6 +6,7 @@ import '../models/food_model.dart';
 import '../routes/app_routes.dart';
 import 'cart_controller.dart';
 import 'favorites_controller.dart';
+import 'navigation_controller.dart';
 
 class FoodDetailsController extends GetxController {
   FoodDetailsController(this._repository);
@@ -16,6 +17,15 @@ class FoodDetailsController extends GetxController {
   final RxString errorMessage = ''.obs;
   final RxInt quantity = 1.obs;
   final RxDouble userRating = 0.0.obs;
+  final RxString selectedSize = ''.obs;
+  final RxList<String> selectedExtras = <String>[].obs;
+
+  double get totalPrice {
+    final currentFood = food.value;
+    if (currentFood == null) return 0;
+    final extrasPrice = selectedExtras.length * 0.75;
+    return (currentFood.price + extrasPrice) * quantity.value;
+  }
 
   @override
   void onInit() {
@@ -33,6 +43,7 @@ class FoodDetailsController extends GetxController {
     final argument = Get.arguments;
     if (argument is FoodModel) {
       food.value = argument;
+      _syncSelections(argument);
       state.value = ViewState.success;
       return;
     }
@@ -53,6 +64,7 @@ class FoodDetailsController extends GetxController {
     try {
       final result = await _repository.getFoodDetails(id);
       food.value = result;
+      _syncSelections(result);
       state.value = ViewState.success;
     } catch (error) {
       errorMessage.value = '$error';
@@ -82,10 +94,31 @@ class FoodDetailsController extends GetxController {
 
   void orderNow() {
     addToCart();
+    if (Get.isRegistered<NavigationController>()) {
+      Get.find<NavigationController>().changeTab(3);
+    }
     Get.toNamed(AppRoutes.checkout);
   }
 
   void setRating(double value) {
     userRating.value = value;
+  }
+
+  void selectSize(String size) {
+    selectedSize.value = size;
+  }
+
+  void toggleExtra(String extra) {
+    if (selectedExtras.contains(extra)) {
+      selectedExtras.remove(extra);
+    } else {
+      selectedExtras.add(extra);
+    }
+  }
+
+  void _syncSelections(FoodModel value) {
+    selectedSize.value = value.sizes.isEmpty ? '' : value.sizes.first;
+    selectedExtras.clear();
+    quantity.value = 1;
   }
 }

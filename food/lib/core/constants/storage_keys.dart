@@ -7,4 +7,5 @@ class StorageKeys {
   static const String notificationsEnabled = 'notifications_enabled';
   static const String language = 'language';
   static const String paymentMethod = 'payment_method';
+  static const String recentSearches = 'recent_searches';
 }

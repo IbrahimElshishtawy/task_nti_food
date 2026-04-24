@@ -189,9 +189,17 @@ class FoodRepository {
 
   List<FoodModel> _filterMockFoods(String normalizedQuery) {
     return MockData.foods.where((food) {
-      return food.name.toLowerCase().contains(normalizedQuery) ||
-          food.description.toLowerCase().contains(normalizedQuery) ||
-          food.categoryId.toLowerCase().contains(normalizedQuery);
+      final searchable = <String>[
+        food.nameAr,
+        food.nameEn,
+        food.descriptionAr,
+        food.descriptionEn,
+        food.categoryId,
+        ...food.ingredients,
+        ...food.sizes,
+        ...food.extras,
+      ].join(' ').toLowerCase();
+      return searchable.contains(normalizedQuery);
     }).toList();
   }
 

@@ -19,7 +19,7 @@ class SearchView extends GetView<FoodSearchController> {
     final cartController = Get.find<CartController>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Search')),
+      appBar: AppBar(title: Text('search'.tr)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
@@ -28,9 +28,9 @@ class SearchView extends GetView<FoodSearchController> {
             children: <Widget>[
               PremiumSearchBar(
                 controller: controller.textController,
-                autofocus: true,
+                autofocus: false,
                 onChanged: controller.onQueryChanged,
-                hintText: 'Pizza, Burger, Pasta...',
+                hintText: 'search_hint'.tr,
               ),
               const SizedBox(height: 14),
               Obx(
@@ -44,10 +44,10 @@ class SearchView extends GetView<FoodSearchController> {
                 child: Obx(() {
                   switch (controller.state.value) {
                     case ViewState.idle:
-                      return const EmptyState(
+                      return EmptyState(
                         icon: Icons.search_rounded,
-                        title: 'What are you craving?',
-                        message: 'Start typing or tap a suggestion above.',
+                        title: 'what_craving'.tr,
+                        message: 'start_typing'.tr,
                       );
                     case ViewState.loading:
                       return ListView.separated(
@@ -58,20 +58,20 @@ class SearchView extends GetView<FoodSearchController> {
                             const LoadingShimmer(height: 118),
                       );
                     case ViewState.empty:
-                      return const EmptyState(
+                      return EmptyState(
                         icon: Icons.manage_search_rounded,
-                        title: 'No results found',
-                        message: 'Try a different meal name or category.',
+                        title: 'no_results_found'.tr,
+                        message: 'search_empty_message'.tr,
                       );
                     case ViewState.error:
                       return EmptyState(
                         icon: Icons.error_outline_rounded,
-                        title: 'Search failed',
+                        title: 'search_failed'.tr,
                         message: controller.errorMessage.value,
                       );
                     case ViewState.success:
                       return ListView.separated(
-                        padding: const EdgeInsets.only(bottom: 24),
+                        padding: const EdgeInsets.only(bottom: 126),
                         itemCount: controller.results.length,
                         separatorBuilder: (context, index) =>
                             const SizedBox(height: 12),

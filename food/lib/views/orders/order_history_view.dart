@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/navigation_controller.dart';
 import '../../controllers/order_controller.dart';
 import '../../core/state/view_state.dart';
 import '../../models/order_model.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
 import '../../utils/currency_formatter.dart';
-import '../../widgets/app_bottom_nav.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/loading_shimmer.dart';
 import '../../widgets/order_status_chip.dart';
@@ -18,13 +18,12 @@ class OrderHistoryView extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Order History')),
-      bottomNavigationBar: const AppBottomNav(currentIndex: 3),
+      appBar: AppBar(title: Text('order_history'.tr)),
       body: Obx(() {
         switch (controller.historyState.value) {
           case ViewState.loading:
             return ListView.separated(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 126),
               itemCount: 4,
               separatorBuilder: (context, index) => const SizedBox(height: 12),
               itemBuilder: (context, index) =>
@@ -33,18 +32,23 @@ class OrderHistoryView extends GetView<OrderController> {
           case ViewState.empty:
             return EmptyState(
               icon: Icons.receipt_long_outlined,
-              title: 'No orders yet',
-              message:
-                  'Your previous orders and live tracking will appear here.',
-              actionLabel: 'Order something',
-              onAction: () => Get.offNamed(AppRoutes.home),
+              title: 'no_orders_yet'.tr,
+              message: 'no_orders_message'.tr,
+              actionLabel: 'order_something'.tr,
+              onAction: () {
+                if (Get.isRegistered<NavigationController>()) {
+                  Get.find<NavigationController>().changeTab(0);
+                } else {
+                  Get.offNamed(AppRoutes.home);
+                }
+              },
             );
           case ViewState.error:
             return EmptyState(
               icon: Icons.error_outline_rounded,
-              title: 'Could not load orders',
+              title: 'could_not_load_orders'.tr,
               message: controller.errorMessage.value,
-              actionLabel: 'Try again',
+              actionLabel: 'try_again'.tr,
               onAction: controller.fetchOrders,
             );
           case ViewState.idle:
@@ -52,7 +56,7 @@ class OrderHistoryView extends GetView<OrderController> {
             return RefreshIndicator(
               onRefresh: controller.fetchOrders,
               child: ListView.separated(
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 126),
                 itemCount: controller.orders.length,
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 14),
@@ -182,7 +186,7 @@ class _Timeline extends StatelessWidget {
           const Icon(Icons.cancel_rounded, color: AppColors.tomato),
           const SizedBox(width: 8),
           Text(
-            'Order cancelled',
+            'order_cancelled'.tr,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w700,

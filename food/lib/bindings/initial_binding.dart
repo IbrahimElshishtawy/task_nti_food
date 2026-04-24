@@ -2,6 +2,12 @@ import 'package:get/get.dart';
 
 import '../controllers/cart_controller.dart';
 import '../controllers/favorites_controller.dart';
+import '../controllers/food_search_controller.dart';
+import '../controllers/home_controller.dart';
+import '../controllers/language_controller.dart';
+import '../controllers/navigation_controller.dart';
+import '../controllers/notifications_controller.dart';
+import '../controllers/order_controller.dart';
 import '../controllers/payment_controller.dart';
 import '../controllers/settings_controller.dart';
 import '../data/repositories/food_repository.dart';
@@ -17,6 +23,11 @@ class InitialBinding extends Bindings {
       FoodRepository(Get.find<ApiService>()),
       permanent: true,
     );
+    Get.put<LanguageController>(
+      LanguageController(Get.find<StorageService>()),
+      permanent: true,
+    );
+    Get.put<NavigationController>(NavigationController(), permanent: true);
     Get.put<FavoritesController>(
       FavoritesController(Get.find<StorageService>()),
       permanent: true,
@@ -32,6 +43,25 @@ class InitialBinding extends Bindings {
     Get.put<SettingsController>(
       SettingsController(Get.find<StorageService>()),
       permanent: true,
+    );
+    Get.lazyPut<HomeController>(
+      () => HomeController(Get.find<FoodRepository>()),
+      fenix: true,
+    );
+    Get.lazyPut<FoodSearchController>(
+      () => FoodSearchController(
+        Get.find<FoodRepository>(),
+        Get.find<StorageService>(),
+      ),
+      fenix: true,
+    );
+    Get.lazyPut<OrderController>(
+      () => OrderController(Get.find<FoodRepository>()),
+      fenix: true,
+    );
+    Get.lazyPut<NotificationsController>(
+      () => NotificationsController(Get.find<FoodRepository>()),
+      fenix: true,
     );
   }
 }

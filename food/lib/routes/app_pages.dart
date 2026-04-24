@@ -1,18 +1,22 @@
 import 'package:get/get.dart';
 
 import '../bindings/details_binding.dart';
-import '../bindings/home_binding.dart';
 import '../bindings/order_binding.dart';
 import '../bindings/search_binding.dart';
+import '../controllers/notifications_controller.dart';
+import '../controllers/splash_controller.dart';
+import '../data/repositories/food_repository.dart';
 import '../views/cart/cart_view.dart';
 import '../views/checkout/confirm_order_view.dart';
 import '../views/checkout/payment_methods_view.dart';
-import '../views/details/food_details_view.dart';
+import '../views/details/enhanced_food_details_view.dart';
 import '../views/favorites/favorites_view.dart';
-import '../views/home/home_view.dart';
+import '../views/main_navigation/main_navigation_view.dart';
+import '../views/notifications/notifications_view.dart';
 import '../views/orders/order_history_view.dart';
 import '../views/search/search_view.dart';
 import '../views/settings/settings_view.dart';
+import '../views/splash/splash_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -20,9 +24,21 @@ class AppPages {
 
   static final List<GetPage<dynamic>> pages = <GetPage<dynamic>>[
     GetPage<dynamic>(
+      name: AppRoutes.splash,
+      page: () => const SplashView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut<SplashController>(() => SplashController());
+      }),
+      transition: Transition.fadeIn,
+    ),
+    GetPage<dynamic>(
       name: AppRoutes.home,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
+      page: () => const MainNavigationView(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage<dynamic>(
+      name: AppRoutes.mainNavigation,
+      page: () => const MainNavigationView(),
       transition: Transition.fadeIn,
     ),
     GetPage<dynamic>(
@@ -33,7 +49,7 @@ class AppPages {
     ),
     GetPage<dynamic>(
       name: AppRoutes.details,
-      page: () => const FoodDetailsView(),
+      page: () => const EnhancedFoodDetailsView(),
       binding: DetailsBinding(),
       transition: Transition.cupertino,
     ),
@@ -62,6 +78,19 @@ class AppPages {
       name: AppRoutes.orders,
       page: () => const OrderHistoryView(),
       binding: OrderBinding(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage<dynamic>(
+      name: AppRoutes.notifications,
+      page: () => const NotificationsView(),
+      binding: BindingsBuilder(() {
+        if (!Get.isRegistered<NotificationsController>()) {
+          Get.lazyPut<NotificationsController>(
+            () => NotificationsController(Get.find<FoodRepository>()),
+            fenix: true,
+          );
+        }
+      }),
       transition: Transition.fadeIn,
     ),
     GetPage<dynamic>(

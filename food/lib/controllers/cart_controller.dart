@@ -43,8 +43,8 @@ class CartController extends GetxController {
     }
     _persistCart();
     Get.snackbar(
-      'Added to cart',
-      '${food.name} is ready for checkout.',
+      'cart_added'.tr,
+      'cart_added_message'.trParams(<String, String>{'food': food.name}),
       snackPosition: SnackPosition.BOTTOM,
       duration: const Duration(seconds: 2),
     );

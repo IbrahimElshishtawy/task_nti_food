@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../core/constants/storage_keys.dart';
 import '../services/storage_service.dart';
+import 'language_controller.dart';
 
 class SettingsController extends GetxController {
   SettingsController(this._storageService);
@@ -20,7 +21,12 @@ class SettingsController extends GetxController {
     notificationsEnabled.value =
         _storageService.read<bool>(StorageKeys.notificationsEnabled) ?? true;
     selectedLanguage.value =
-        _storageService.read<String>(StorageKeys.language) ?? 'English';
+        LanguageController.normalizeLanguage(
+                  _storageService.read<String>(StorageKeys.language),
+                ) ==
+                'ar'
+            ? 'Arabic'
+            : 'English';
   }
 
   void toggleTheme(bool value) {
@@ -35,11 +41,12 @@ class SettingsController extends GetxController {
   }
 
   void changeLanguage(String language) {
-    selectedLanguage.value = language;
-    _storageService.write(StorageKeys.language, language);
+    final normalized = LanguageController.normalizeLanguage(language);
+    selectedLanguage.value = normalized == 'ar' ? 'Arabic' : 'English';
+    _storageService.write(StorageKeys.language, normalized);
   }
 
   void logout() {
-    Get.snackbar('Logged out', 'Session cleared from this demo UI.');
+    Get.snackbar('logged_out'.tr, 'logged_out_message'.tr);
   }
 }

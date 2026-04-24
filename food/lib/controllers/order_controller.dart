@@ -7,6 +7,7 @@ import '../data/repositories/food_repository.dart';
 import '../models/order_model.dart';
 import '../routes/app_routes.dart';
 import 'cart_controller.dart';
+import 'navigation_controller.dart';
 import 'payment_controller.dart';
 
 class OrderController extends GetxController {
@@ -56,7 +57,7 @@ class OrderController extends GetxController {
   Future<void> submitOrder() async {
     final cartController = Get.find<CartController>();
     if (cartController.items.isEmpty) {
-      Get.snackbar('Cart is empty', 'Add a meal first to place an order.');
+      Get.snackbar('cart_empty'.tr, 'cart_empty_message'.tr);
       return;
     }
 
@@ -74,8 +75,13 @@ class OrderController extends GetxController {
       orders.insert(0, order);
       cartController.clearCart();
       checkoutState.value = ViewState.success;
-      Get.offNamed(AppRoutes.orders);
-      Get.snackbar('Order sent', 'Your kitchen ticket is now live.');
+      if (Get.isRegistered<NavigationController>()) {
+        Get.find<NavigationController>().changeTab(3);
+        Get.offAllNamed(AppRoutes.home);
+      } else {
+        Get.offNamed(AppRoutes.orders);
+      }
+      Get.snackbar('order_sent'.tr, 'order_sent_message'.tr);
     } catch (error) {
       errorMessage.value = '$error';
       checkoutState.value = ViewState.error;

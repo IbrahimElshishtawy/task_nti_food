@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/language_controller.dart';
 import '../../controllers/settings_controller.dart';
 import '../../core/constants/app_constants.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
-import '../../widgets/app_bottom_nav.dart';
 
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final languageController = Get.find<LanguageController>();
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
-      bottomNavigationBar: const AppBottomNav(currentIndex: 4),
+      appBar: AppBar(title: Text('settings'.tr)),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 126),
         children: <Widget>[
           const _ProfileSection(),
           const SizedBox(height: 18),
@@ -27,9 +27,11 @@ class SettingsView extends GetView<SettingsController> {
                   value: controller.isDarkMode.value,
                   onChanged: controller.toggleTheme,
                   secondary: const Icon(Icons.dark_mode_outlined),
-                  title: const Text('Dark / Light theme'),
+                  title: Text('dark_light_theme'.tr),
                   subtitle: Text(
-                    controller.isDarkMode.value ? 'Dark mode' : 'Light mode',
+                    controller.isDarkMode.value
+                        ? 'dark_mode'.tr
+                        : 'light_mode'.tr,
                   ),
                 ),
               ),
@@ -39,31 +41,34 @@ class SettingsView extends GetView<SettingsController> {
                   value: controller.notificationsEnabled.value,
                   onChanged: controller.toggleNotifications,
                   secondary: const Icon(Icons.notifications_active_outlined),
-                  title: const Text('Notifications'),
-                  subtitle: const Text('Order updates and offers'),
+                  title: Text('notifications'.tr),
+                  subtitle: Text('notifications_subtitle'.tr),
                 ),
               ),
               const Divider(height: 1),
               Obx(
                 () => ListTile(
                   leading: const Icon(Icons.language_rounded),
-                  title: const Text('Language'),
-                  subtitle: Text(controller.selectedLanguage.value),
+                  title: Text('language'.tr),
+                  subtitle: Text(languageController.selectedLanguage),
                   trailing: DropdownButton<String>(
-                    value: controller.selectedLanguage.value,
+                    value: languageController.languageCode.value,
                     underline: const SizedBox.shrink(),
-                    items: const <DropdownMenuItem<String>>[
+                    items: <DropdownMenuItem<String>>[
                       DropdownMenuItem<String>(
-                        value: 'English',
-                        child: Text('English'),
+                        value: 'en',
+                        child: Text('english'.tr),
                       ),
                       DropdownMenuItem<String>(
-                        value: 'Arabic',
-                        child: Text('Arabic'),
+                        value: 'ar',
+                        child: Text('arabic'.tr),
                       ),
                     ],
                     onChanged: (value) {
-                      if (value != null) controller.changeLanguage(value);
+                      if (value != null) {
+                        languageController.changeLanguage(value);
+                        controller.changeLanguage(value);
+                      }
                     },
                   ),
                 ),
@@ -75,21 +80,21 @@ class SettingsView extends GetView<SettingsController> {
             children: <Widget>[
               _SettingsTile(
                 icon: Icons.location_on_outlined,
-                title: 'Addresses',
+                title: 'addresses'.tr,
                 subtitle: AppConstants.defaultDeliveryLocation,
                 onTap: () {},
               ),
               const Divider(height: 1),
               _SettingsTile(
                 icon: Icons.credit_card_rounded,
-                title: 'Payment methods',
-                subtitle: 'Cash, card, wallet',
+                title: 'payment_methods'.tr,
+                subtitle: 'payment_methods_subtitle'.tr,
                 onTap: () => Get.toNamed(AppRoutes.paymentMethods),
               ),
               const Divider(height: 1),
               _SettingsTile(
                 icon: Icons.info_outline_rounded,
-                title: 'About App',
+                title: 'about_app'.tr,
                 subtitle: 'TasteTrail version 1.0.0',
                 onTap: () => showAboutDialog(
                   context: context,
@@ -106,8 +111,8 @@ class SettingsView extends GetView<SettingsController> {
             children: <Widget>[
               _SettingsTile(
                 icon: Icons.logout_rounded,
-                title: 'Logout',
-                subtitle: 'End the current demo session',
+                title: 'logout'.tr,
+                subtitle: 'logout_subtitle'.tr,
                 iconColor: AppColors.tomato,
                 onTap: controller.logout,
               ),
@@ -166,7 +171,7 @@ class _ProfileSection extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'Premium food lover',
+                  'profile_subtitle'.tr,
                   style: TextStyle(color: colorScheme.onSurfaceVariant),
                 ),
               ],
@@ -175,7 +180,7 @@ class _ProfileSection extends StatelessWidget {
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.edit_outlined),
-            tooltip: 'Edit profile',
+            tooltip: 'edit_profile'.tr,
           ),
         ],
       ),

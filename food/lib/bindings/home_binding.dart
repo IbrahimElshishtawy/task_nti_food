@@ -6,9 +6,11 @@ import '../data/repositories/food_repository.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<HomeController>(
-      () => HomeController(Get.find<FoodRepository>()),
-      fenix: true,
-    );
+    if (!Get.isRegistered<HomeController>()) {
+      Get.lazyPut<HomeController>(
+        () => HomeController(Get.find<FoodRepository>()),
+        fenix: true,
+      );
+    }
   }
 }

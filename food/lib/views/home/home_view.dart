@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/favorites_controller.dart';
+import '../../controllers/food_search_controller.dart';
 import '../../controllers/home_controller.dart';
+import '../../controllers/navigation_controller.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/state/view_state.dart';
 import '../../models/ad_model.dart';
 import '../../models/category_model.dart';
 import '../../models/food_model.dart';
-import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
-import '../../widgets/app_bottom_nav.dart';
+import '../../widgets/animated_3d_food_card.dart';
 import '../../widgets/empty_state.dart';
-import '../../widgets/food_3d_card.dart';
 import '../../widgets/loading_shimmer.dart';
 import '../../widgets/premium_search_bar.dart';
 import '../../widgets/section_header.dart';
@@ -24,12 +24,13 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final navigationController = Get.find<NavigationController>();
     return Scaffold(
-      bottomNavigationBar: const AppBottomNav(currentIndex: 0),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: controller.loadHomeData,
           child: CustomScrollView(
+            controller: navigationController.homeScrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: <Widget>[
               SliverToBoxAdapter(
@@ -42,7 +43,8 @@ class HomeView extends GetView<HomeController> {
                       const SizedBox(height: 22),
                       PremiumSearchBar(
                         readOnly: true,
-                        onTap: () => Get.toNamed(AppRoutes.search),
+                        hintText: 'search_hint'.tr,
+                        onTap: () => navigationController.changeTab(1),
                       ),
                       const SizedBox(height: 14),
                       const _SuggestionChips(),
@@ -56,7 +58,7 @@ class HomeView extends GetView<HomeController> {
                         ),
                       ),
                       const SizedBox(height: 26),
-                      const SectionHeader(title: 'Explore categories'),
+                      SectionHeader(title: 'explore_categories'.tr),
                       const SizedBox(height: 12),
                       Obx(
                         () => _CategoryStrip(
@@ -68,9 +70,9 @@ class HomeView extends GetView<HomeController> {
                       ),
                       const SizedBox(height: 24),
                       SectionHeader(
-                        title: 'Popular near you',
-                        actionLabel: 'Search',
-                        onAction: () => Get.toNamed(AppRoutes.search),
+                        title: 'popular_near_you'.tr,
+                        actionLabel: 'search'.tr,
+                        onAction: () => navigationController.changeTab(1),
                       ),
                       const SizedBox(height: 14),
                     ],
@@ -87,7 +89,7 @@ class HomeView extends GetView<HomeController> {
                   onCart: controller.addToCart,
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 24)),
+              const SliverToBoxAdapter(child: SizedBox(height: 126)),
             ],
           ),
         ),
@@ -109,7 +111,9 @@ class _HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Good morning, ${AppConstants.defaultUserName}',
+                'good_morning'.trParams(<String, String>{
+                  'name': AppConstants.defaultUserName,
+                }),
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
@@ -125,7 +129,9 @@ class _HomeHeader extends StatelessWidget {
                   const SizedBox(width: 5),
                   Flexible(
                     child: Text(
-                      'Deliver to ${AppConstants.defaultDeliveryLocation}',
+                      'deliver_to'.trParams(<String, String>{
+                        'location': AppConstants.defaultDeliveryLocation,
+                      }),
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurfaceVariant,
@@ -138,23 +144,22 @@ class _HomeHeader extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            shape: BoxShape.circle,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black.withValues(alpha: .06),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
+        Material(
+          color: colorScheme.surface,
+          shape: const CircleBorder(),
+          elevation: 0,
+          shadowColor: Colors.black.withValues(alpha: .08),
+          child: InkWell(
+            customBorder: const CircleBorder(),
+            onTap: () => Get.find<NavigationController>().changeTab(4),
+            child: const SizedBox(
+              width: 48,
+              height: 48,
+              child: Badge(
+                smallSize: 9,
+                child: Icon(Icons.notifications_none_rounded),
               ),
-            ],
-          ),
-          child: const Badge(
-            smallSize: 9,
-            child: Icon(Icons.notifications_none_rounded),
+            ),
           ),
         ),
       ],
@@ -167,16 +172,22 @@ class _SuggestionChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final chips = Get.locale?.languageCode == 'ar'
+        ? const <String>['بيتزا', 'برجر', 'باستا', 'فراخ', 'حلويات']
+        : AppConstants.searchChips;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: AppConstants.searchChips.map((chip) {
+        children: chips.map((chip) {
           return Padding(
             padding: const EdgeInsets.only(right: 10),
             child: ActionChip(
               label: Text(chip),
               avatar: const Icon(Icons.local_fire_department_rounded, size: 18),
-              onPressed: () => Get.toNamed(AppRoutes.search, arguments: chip),
+              onPressed: () {
+                Get.find<FoodSearchController>().useSuggestion(chip);
+                Get.find<NavigationController>().changeTab(1);
+              },
             ),
           );
         }).toList(),
@@ -339,9 +350,9 @@ class _CategoryStrip extends StatelessWidget {
     }
 
     final visibleCategories = <CategoryModel>[
-      const CategoryModel(
+      CategoryModel(
         id: 'all',
-        name: 'All',
+        name: 'all'.tr,
         imageUrl: '',
         colorHex: 'FFFFFF',
       ),
@@ -482,21 +493,21 @@ class _FoodGrid extends StatelessWidget {
         hasScrollBody: false,
         child: EmptyState(
           icon: Icons.wifi_off_rounded,
-          title: 'Could not load menu',
+          title: 'could_not_load_menu'.tr,
           message: errorMessage,
-          actionLabel: 'Try again',
+          actionLabel: 'try_again'.tr,
           onAction: onRetry,
         ),
       );
     }
 
     if (foods.isEmpty) {
-      return const SliverFillRemaining(
+      return SliverFillRemaining(
         hasScrollBody: false,
         child: EmptyState(
           icon: Icons.no_food_rounded,
-          title: 'No meals here yet',
-          message: 'Try another category or search for your favorite meal.',
+          title: 'no_meals_here'.tr,
+          message: 'no_meals_message'.tr,
         ),
       );
     }
@@ -523,8 +534,9 @@ class _FoodGrid extends StatelessWidget {
             itemBuilder: (context, index) {
               final FoodModel food = foods[index];
               return Obx(
-                () => Food3DCard(
+                () => Animated3DFoodCard(
                   food: food,
+                  index: index,
                   isFavorite: favoritesController.isFavorite(food.id),
                   onFavorite: () => onFavorite(food),
                   onCart: () => onCart(food),

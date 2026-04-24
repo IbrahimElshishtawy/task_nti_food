@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../models/order_model.dart';
 import '../theme/app_colors.dart';
@@ -18,7 +19,7 @@ class OrderStatusChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
-        status.label,
+        _label.tr,
         style: TextStyle(
           color: color,
           fontWeight: FontWeight.w800,
@@ -40,6 +41,21 @@ class OrderStatusChip extends StatelessWidget {
         return AppColors.leaf;
       case OrderStatus.cancelled:
         return AppColors.tomato;
+    }
+  }
+
+  String get _label {
+    switch (status) {
+      case OrderStatus.pending:
+        return 'status_pending';
+      case OrderStatus.preparing:
+        return 'status_preparing';
+      case OrderStatus.onTheWay:
+        return 'status_on_the_way';
+      case OrderStatus.delivered:
+        return 'status_delivered';
+      case OrderStatus.cancelled:
+        return 'status_cancelled';
     }
   }
 }
