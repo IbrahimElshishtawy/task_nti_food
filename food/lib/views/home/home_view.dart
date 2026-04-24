@@ -64,7 +64,8 @@ class HomeView extends GetView<HomeController> {
                         () => _CategoryStrip(
                           state: controller.state.value,
                           sourceCategories: controller.categories.toList(),
-                          selectedCategoryId: controller.selectedCategoryId.value,
+                          selectedCategoryId:
+                              controller.selectedCategoryId.value,
                           onSelected: controller.selectCategory,
                         ),
                       ),

@@ -196,7 +196,8 @@ class _Animated3DFoodCardState extends State<Animated3DFoodCard> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        if (widget.food.oldPrice > widget.food.price)
+                                        if (widget.food.oldPrice >
+                                            widget.food.price)
                                           Text(
                                             CurrencyFormatter.format(
                                               widget.food.oldPrice,
@@ -274,18 +275,15 @@ class _Animated3DFoodCardState extends State<Animated3DFoodCard> {
                                 imageUrl: widget.food.imageUrl,
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) => Container(
-                                  color:
-                                      colorScheme.surfaceContainerHighest,
+                                  color: colorScheme.surfaceContainerHighest,
                                 ),
-                                errorWidget: (context, url, error) =>
-                                    Container(
-                                      color: colorScheme
-                                          .surfaceContainerHighest,
-                                      child: const Icon(
-                                        Icons.fastfood_rounded,
-                                        size: 34,
-                                      ),
-                                    ),
+                                errorWidget: (context, url, error) => Container(
+                                  color: colorScheme.surfaceContainerHighest,
+                                  child: const Icon(
+                                    Icons.fastfood_rounded,
+                                    size: 34,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

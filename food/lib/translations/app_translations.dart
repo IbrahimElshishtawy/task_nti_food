@@ -24,7 +24,8 @@ class AppTranslations extends Translations {
       'try_again': 'Try again',
       'could_not_load_menu': 'Could not load menu',
       'no_meals_here': 'No meals here yet',
-      'no_meals_message': 'Try another category or search for your favorite meal.',
+      'no_meals_message':
+          'Try another category or search for your favorite meal.',
       'what_craving': 'What are you craving?',
       'start_typing': 'Start typing or tap a suggestion above.',
       'no_results_found': 'No results found',
@@ -78,7 +79,8 @@ class AppTranslations extends Translations {
       'order_sent_message': 'Your kitchen ticket is now live.',
       'order_history': 'Order History',
       'no_orders_yet': 'No orders yet',
-      'no_orders_message': 'Your previous orders and live tracking will appear here.',
+      'no_orders_message':
+          'Your previous orders and live tracking will appear here.',
       'order_something': 'Order something',
       'could_not_load_orders': 'Could not load orders',
       'order_cancelled': 'Order cancelled',

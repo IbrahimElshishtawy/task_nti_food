@@ -22,11 +22,11 @@ class SettingsController extends GetxController {
         _storageService.read<bool>(StorageKeys.notificationsEnabled) ?? true;
     selectedLanguage.value =
         LanguageController.normalizeLanguage(
-                  _storageService.read<String>(StorageKeys.language),
-                ) ==
-                'ar'
-            ? 'Arabic'
-            : 'English';
+              _storageService.read<String>(StorageKeys.language),
+            ) ==
+            'ar'
+        ? 'Arabic'
+        : 'English';
   }
 
   void toggleTheme(bool value) {

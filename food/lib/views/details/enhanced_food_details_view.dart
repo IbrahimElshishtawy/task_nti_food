@@ -257,9 +257,8 @@ class _FloatingHeroImageState extends State<_FloatingHeroImage>
                     child: CachedNetworkImage(
                       imageUrl: widget.food.imageUrl,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        color: colorScheme.surfaceContainerHighest,
-                      ),
+                      placeholder: (context, url) =>
+                          Container(color: colorScheme.surfaceContainerHighest),
                       errorWidget: (context, url, error) => Container(
                         color: colorScheme.surfaceContainerHighest,
                         child: const Icon(Icons.fastfood_rounded, size: 56),
@@ -465,10 +464,7 @@ class _StatCard extends StatelessWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: colorScheme.onSurfaceVariant,
-              fontSize: 11,
-            ),
+            style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 11),
           ),
         ],
       ),

@@ -292,8 +292,7 @@ class MockFoodData {
       id: '5',
       nameAr: 'بيتزا بيبروني فولكانو',
       nameEn: 'Pepperoni Volcano Pizza',
-      descriptionAr:
-          'بيبروني مدخن، موتزاريلا كثيرة، هالبينو وصوص طماطم غني.',
+      descriptionAr: 'بيبروني مدخن، موتزاريلا كثيرة، هالبينو وصوص طماطم غني.',
       descriptionEn:
           'Smoky pepperoni, extra mozzarella, jalapeno, and rich tomato sauce.',
       imageUrl:
@@ -358,8 +357,7 @@ class MockFoodData {
       id: '8',
       nameAr: 'باستا جمبري ألفريدو',
       nameEn: 'Shrimp Alfredo Pasta',
-      descriptionAr:
-          'جمبري سوتيه، فيتوتشيني، صوص ألفريدو حريري ولمسة ليمون.',
+      descriptionAr: 'جمبري سوتيه، فيتوتشيني، صوص ألفريدو حريري ولمسة ليمون.',
       descriptionEn:
           'Sauteed shrimp, fettuccine, silky Alfredo sauce, and a lemon finish.',
       imageUrl:
@@ -401,8 +399,7 @@ class MockFoodData {
       id: '10',
       nameAr: 'فراخ هاني تشيلي',
       nameEn: 'Honey Chili Chicken',
-      descriptionAr:
-          'قطع فراخ مقرمشة بصوص عسل وتشيلي، سمسم، بصل أخضر ولايم.',
+      descriptionAr: 'قطع فراخ مقرمشة بصوص عسل وتشيلي، سمسم، بصل أخضر ولايم.',
       descriptionEn:
           'Crispy chicken glazed with honey chili, sesame, spring onion, and lime.',
       imageUrl:
@@ -445,8 +442,7 @@ class MockFoodData {
       id: '12',
       nameAr: 'طبق شاورما فراخ',
       nameEn: 'Chicken Shawarma Plate',
-      descriptionAr:
-          'شاورما فراخ متبلة، ثومية، مخلل، بطاطس وأرز شرقي دافئ.',
+      descriptionAr: 'شاورما فراخ متبلة، ثومية، مخلل، بطاطس وأرز شرقي دافئ.',
       descriptionEn:
           'Spiced chicken shawarma, garlic dip, pickles, fries, and warm oriental rice.',
       imageUrl:
@@ -467,8 +463,7 @@ class MockFoodData {
       id: '13',
       nameAr: 'طبق كفتة بلدي',
       nameEn: 'Beef Kofta Platter',
-      descriptionAr:
-          'كفتة مشوية على الفحم مع طحينة، سلطة بلدي وخبز طازج.',
+      descriptionAr: 'كفتة مشوية على الفحم مع طحينة، سلطة بلدي وخبز طازج.',
       descriptionEn:
           'Charcoal-grilled kofta with tahini, baladi salad, and fresh bread.',
       imageUrl:
@@ -489,8 +484,7 @@ class MockFoodData {
       id: '14',
       nameAr: 'كشري بريميوم',
       nameEn: 'Premium Koshary Bowl',
-      descriptionAr:
-          'عدس، أرز، مكرونة، حمص، بصل مقرمش، دقة وصوص طماطم حار.',
+      descriptionAr: 'عدس، أرز، مكرونة، حمص، بصل مقرمش، دقة وصوص طماطم حار.',
       descriptionEn:
           'Lentils, rice, pasta, chickpeas, crispy onions, daqqa, and spicy tomato sauce.',
       imageUrl:
@@ -511,8 +505,7 @@ class MockFoodData {
       id: '15',
       nameAr: 'كبسة فراخ',
       nameEn: 'Chicken Kabsa',
-      descriptionAr:
-          'فراخ متبلة بتوابل خليجية مع أرز بسمتي، مكسرات وصوص دقوس.',
+      descriptionAr: 'فراخ متبلة بتوابل خليجية مع أرز بسمتي، مكسرات وصوص دقوس.',
       descriptionEn:
           'Gulf-spiced chicken with basmati rice, nuts, and daqoos sauce.',
       imageUrl:
@@ -533,8 +526,7 @@ class MockFoodData {
       id: '16',
       nameAr: 'ستيك مشروم',
       nameEn: 'Steak and Mushrooms',
-      descriptionAr:
-          'ستيك مشوي مع مشروم كريمي، بطاطس مهروسة وخضار سوتيه.',
+      descriptionAr: 'ستيك مشوي مع مشروم كريمي، بطاطس مهروسة وخضار سوتيه.',
       descriptionEn:
           'Grilled steak with creamy mushrooms, mashed potatoes, and sauteed vegetables.',
       imageUrl:
@@ -556,8 +548,7 @@ class MockFoodData {
       id: '17',
       nameAr: 'فيش آند تشيبس',
       nameEn: 'Fish and Chips',
-      descriptionAr:
-          'فيليه سمك مقرمش، بطاطس ذهبية، صوص تارتار وسلطة كابج.',
+      descriptionAr: 'فيليه سمك مقرمش، بطاطس ذهبية، صوص تارتار وسلطة كابج.',
       descriptionEn:
           'Crispy fish fillet, golden fries, tartar sauce, and cabbage salad.',
       imageUrl:
@@ -577,8 +568,7 @@ class MockFoodData {
       id: '18',
       nameAr: 'كلوب ساندوتش ديك رومي',
       nameEn: 'Turkey Club Sandwich',
-      descriptionAr:
-          'ديك رومي مدخن، بيض، خس، طماطم، مايونيز خفيف وتوست محمص.',
+      descriptionAr: 'ديك رومي مدخن، بيض، خس، طماطم، مايونيز خفيف وتوست محمص.',
       descriptionEn:
           'Smoked turkey, egg, lettuce, tomato, light mayo, and toasted bread.',
       imageUrl:
@@ -620,8 +610,7 @@ class MockFoodData {
       id: '20',
       nameAr: 'راب فلافل صحي',
       nameEn: 'Falafel Power Wrap',
-      descriptionAr:
-          'فلافل بالفرن، طحينة لايت، خضار مقرمش وخبز حبوب كاملة.',
+      descriptionAr: 'فلافل بالفرن، طحينة لايت، خضار مقرمش وخبز حبوب كاملة.',
       descriptionEn:
           'Baked falafel, light tahini, crunchy vegetables, and wholegrain wrap.',
       imageUrl:
@@ -642,8 +631,7 @@ class MockFoodData {
       id: '21',
       nameAr: 'بول فراخ بالأفوكادو',
       nameEn: 'Avocado Chicken Bowl',
-      descriptionAr:
-          'فراخ مشوية، أفوكادو، كينوا، ذرة، خضار وصوص حمضيات.',
+      descriptionAr: 'فراخ مشوية، أفوكادو، كينوا، ذرة، خضار وصوص حمضيات.',
       descriptionEn:
           'Grilled chicken, avocado, quinoa, corn salsa, greens, and citrus dressing.',
       imageUrl:
@@ -664,8 +652,7 @@ class MockFoodData {
       id: '22',
       nameAr: 'سلطة سلمون وكينوا',
       nameEn: 'Quinoa Salmon Salad',
-      descriptionAr:
-          'سلمون مشوي، كينوا، خيار، أفوكادو، خضار وصوص زبادي ليمون.',
+      descriptionAr: 'سلمون مشوي، كينوا، خيار، أفوكادو، خضار وصوص زبادي ليمون.',
       descriptionEn:
           'Grilled salmon, quinoa, cucumber, avocado, greens, and lemon yogurt dressing.',
       imageUrl:
@@ -707,8 +694,7 @@ class MockFoodData {
       id: '24',
       nameAr: 'مولتن شوكولاتة',
       nameEn: 'Molten Chocolate Cake',
-      descriptionAr:
-          'كيك شوكولاتة دافئ بقلب سائل مع كريمة فانيليا وتوت.',
+      descriptionAr: 'كيك شوكولاتة دافئ بقلب سائل مع كريمة فانيليا وتوت.',
       descriptionEn:
           'Warm chocolate cake with a soft center, vanilla cream, and berries.',
       imageUrl:
@@ -729,8 +715,7 @@ class MockFoodData {
       id: '25',
       nameAr: 'تشيز كيك لوتس',
       nameEn: 'Lotus Cheesecake',
-      descriptionAr:
-          'تشيز كيك كريمي بقاعدة بسكويت لوتس وصوص كراميل غني.',
+      descriptionAr: 'تشيز كيك كريمي بقاعدة بسكويت لوتس وصوص كراميل غني.',
       descriptionEn:
           'Creamy cheesecake with Lotus biscuit base and rich caramel sauce.',
       imageUrl:
@@ -751,8 +736,7 @@ class MockFoodData {
       id: '26',
       nameAr: 'كنافة كريمة',
       nameEn: 'Kunafa Cream Cup',
-      descriptionAr:
-          'كنافة مقرمشة، كريمة خفيفة، فستق وشربات ورد متوازن.',
+      descriptionAr: 'كنافة مقرمشة، كريمة خفيفة، فستق وشربات ورد متوازن.',
       descriptionEn:
           'Crispy kunafa, light cream, pistachio, and balanced rose syrup.',
       imageUrl:
@@ -772,8 +756,7 @@ class MockFoodData {
       id: '27',
       nameAr: 'تيراميسو جار',
       nameEn: 'Tiramisu Jar',
-      descriptionAr:
-          'طبقات ماسكاربوني، إسبرسو، كاكاو وبسكويت ليدي فينجر.',
+      descriptionAr: 'طبقات ماسكاربوني، إسبرسو، كاكاو وبسكويت ليدي فينجر.',
       descriptionEn:
           'Layers of mascarpone, espresso, cocoa, and ladyfinger biscuits.',
       imageUrl:
@@ -814,10 +797,8 @@ class MockFoodData {
       id: '29',
       nameAr: 'سوربيه مانجو',
       nameEn: 'Mango Sorbet',
-      descriptionAr:
-          'سوربيه مانجو منعش بدون ألبان مع لمسة لايم ونعناع.',
-      descriptionEn:
-          'Refreshing dairy-free mango sorbet with lime and mint.',
+      descriptionAr: 'سوربيه مانجو منعش بدون ألبان مع لمسة لايم ونعناع.',
+      descriptionEn: 'Refreshing dairy-free mango sorbet with lime and mint.',
       imageUrl:
           'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=900&q=90',
       price: 5.70,
@@ -836,8 +817,7 @@ class MockFoodData {
       id: '30',
       nameAr: 'سانداي فراولة',
       nameEn: 'Strawberry Sundae',
-      descriptionAr:
-          'آيس كريم فانيليا، صوص فراولة، كريمة وقطع بسكويت مقرمشة.',
+      descriptionAr: 'آيس كريم فانيليا، صوص فراولة، كريمة وقطع بسكويت مقرمشة.',
       descriptionEn:
           'Vanilla ice cream, strawberry sauce, whipped cream, and crunchy biscuit.',
       imageUrl:
@@ -857,8 +837,7 @@ class MockFoodData {
       id: '31',
       nameAr: 'آيس سبانش لاتيه',
       nameEn: 'Iced Spanish Latte',
-      descriptionAr:
-          'إسبرسو بارد، حليب كريمي وحلاوة متوازنة فوق مكعبات ثلج.',
+      descriptionAr: 'إسبرسو بارد، حليب كريمي وحلاوة متوازنة فوق مكعبات ثلج.',
       descriptionEn:
           'Cold espresso, creamy milk, and balanced sweetness over ice.',
       imageUrl:
@@ -879,8 +858,7 @@ class MockFoodData {
       id: '32',
       nameAr: 'كولد برو بالحمضيات',
       nameEn: 'Cold Brew Citrus',
-      descriptionAr:
-          'كولد برو مركز مع تونك خفيف، برتقال ولمسة قرفة.',
+      descriptionAr: 'كولد برو مركز مع تونك خفيف، برتقال ولمسة قرفة.',
       descriptionEn:
           'Concentrated cold brew with light tonic, orange, and a cinnamon hint.',
       imageUrl:
@@ -901,8 +879,7 @@ class MockFoodData {
       id: '33',
       nameAr: 'عصير مانجو فريش',
       nameEn: 'Fresh Mango Juice',
-      descriptionAr:
-          'مانجو طبيعي مع قوام كثيف، ثلج خفيف وبدون ألوان صناعية.',
+      descriptionAr: 'مانجو طبيعي مع قوام كثيف، ثلج خفيف وبدون ألوان صناعية.',
       descriptionEn:
           'Natural mango with a rich texture, light ice, and no artificial colors.',
       imageUrl:
@@ -923,8 +900,7 @@ class MockFoodData {
       id: '34',
       nameAr: 'عصير بطيخ ونعناع',
       nameEn: 'Watermelon Mint Juice',
-      descriptionAr:
-          'بطيخ مبرد، نعناع طازج، لايم ونقطة عسل اختيارية.',
+      descriptionAr: 'بطيخ مبرد، نعناع طازج، لايم ونقطة عسل اختيارية.',
       descriptionEn:
           'Chilled watermelon, fresh mint, lime, and an optional honey touch.',
       imageUrl:
@@ -944,8 +920,7 @@ class MockFoodData {
       id: '35',
       nameAr: 'بوست برتقال وجزر',
       nameEn: 'Orange Carrot Boost',
-      descriptionAr:
-          'برتقال طازج، جزر، زنجبيل خفيف وثلج لمشروب منعش.',
+      descriptionAr: 'برتقال طازج، جزر، زنجبيل خفيف وثلج لمشروب منعش.',
       descriptionEn:
           'Fresh orange, carrot, light ginger, and ice for a bright refresh.',
       imageUrl:
@@ -966,8 +941,7 @@ class MockFoodData {
       id: '36',
       nameAr: 'كابتشينو كلاسيك',
       nameEn: 'Classic Cappuccino',
-      descriptionAr:
-          'إسبرسو متوازن مع رغوة حليب حريرية ورشة كاكاو.',
+      descriptionAr: 'إسبرسو متوازن مع رغوة حليب حريرية ورشة كاكاو.',
       descriptionEn:
           'Balanced espresso with silky milk foam and a cocoa dusting.',
       imageUrl:
@@ -988,8 +962,7 @@ class MockFoodData {
       id: '37',
       nameAr: 'قهوة تركي',
       nameEn: 'Turkish Coffee',
-      descriptionAr:
-          'قهوة تركي غنية مطحونة ناعم مع وش كثيف وحبهان اختياري.',
+      descriptionAr: 'قهوة تركي غنية مطحونة ناعم مع وش كثيف وحبهان اختياري.',
       descriptionEn:
           'Rich finely ground Turkish coffee with thick foam and optional cardamom.',
       imageUrl:
@@ -1010,8 +983,7 @@ class MockFoodData {
       id: '38',
       nameAr: 'شاي كرك',
       nameEn: 'Karak Tea',
-      descriptionAr:
-          'شاي أسود بالحليب، هيل، زعفران خفيف وحلاوة مضبوطة.',
+      descriptionAr: 'شاي أسود بالحليب، هيل، زعفران خفيف وحلاوة مضبوطة.',
       descriptionEn:
           'Black tea with milk, cardamom, light saffron, and balanced sweetness.',
       imageUrl:
@@ -1032,8 +1004,7 @@ class MockFoodData {
       id: '39',
       nameAr: 'شاي مغربي بالنعناع',
       nameEn: 'Moroccan Mint Tea',
-      descriptionAr:
-          'شاي أخضر مع نعناع طازج وسكر خفيف يقدم ساخن ومنعش.',
+      descriptionAr: 'شاي أخضر مع نعناع طازج وسكر خفيف يقدم ساخن ومنعش.',
       descriptionEn:
           'Green tea with fresh mint and light sugar, served hot and refreshing.',
       imageUrl:
@@ -1053,8 +1024,7 @@ class MockFoodData {
       id: '40',
       nameAr: 'هوت شوكليت',
       nameEn: 'Signature Hot Chocolate',
-      descriptionAr:
-          'كاكاو بلجيكي، حليب مبخر، مارشميلو وصوص شوكولاتة داكنة.',
+      descriptionAr: 'كاكاو بلجيكي، حليب مبخر، مارشميلو وصوص شوكولاتة داكنة.',
       descriptionEn:
           'Belgian cocoa, steamed milk, marshmallow, and dark chocolate sauce.',
       imageUrl:
@@ -1084,7 +1054,11 @@ class MockFoodData {
     'Double',
     'Combo',
   ];
-  static const List<String> _dessertSizes = <String>['Mini', 'Regular', 'Share'];
+  static const List<String> _dessertSizes = <String>[
+    'Mini',
+    'Regular',
+    'Share',
+  ];
   static const List<String> _drinkSizes = <String>['Small', 'Medium', 'Large'];
 
   static const List<String> _burgerExtras = <String>[

@@ -102,10 +102,7 @@ class SearchView extends GetView<FoodSearchController> {
 }
 
 class _SuggestionRow extends StatelessWidget {
-  const _SuggestionRow({
-    required this.suggestions,
-    required this.onSelected,
-  });
+  const _SuggestionRow({required this.suggestions, required this.onSelected});
 
   final List<String> suggestions;
   final ValueChanged<String> onSelected;

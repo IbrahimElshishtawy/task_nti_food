@@ -155,7 +155,9 @@ class _BottomNavTile extends StatelessWidget {
                     item.label,
                     maxLines: 1,
                     style: TextStyle(
-                      color: active ? Colors.white : colorScheme.onSurfaceVariant,
+                      color: active
+                          ? Colors.white
+                          : colorScheme.onSurfaceVariant,
                       fontSize: 10.5,
                       fontWeight: active ? FontWeight.w900 : FontWeight.w700,
                     ),

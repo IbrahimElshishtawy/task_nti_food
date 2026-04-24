@@ -81,7 +81,10 @@ class FoodModel {
       oldPrice: _toDouble(json['oldPrice'] ?? json['old_price']),
       rating: _toDouble(json['rating'], fallback: 4.5),
       reviewsCount: _toInt(
-        json['reviewsCount'] ?? json['reviews_count'] ?? json['reviewCount'] ?? json['review_count'],
+        json['reviewsCount'] ??
+            json['reviews_count'] ??
+            json['reviewCount'] ??
+            json['review_count'],
         fallback: 0,
       ),
       preparationTime:
@@ -93,7 +96,8 @@ class FoodModel {
       isPopular: json['isPopular'] == true || json['is_popular'] == true,
       isRecommended:
           json['isRecommended'] == true || json['is_recommended'] == true,
-      isAvailable: json['isAvailable'] != false && json['is_available'] != false,
+      isAvailable:
+          json['isAvailable'] != false && json['is_available'] != false,
       sizes: _stringList(json['sizes']),
       extras: _stringList(json['extras']),
     );
