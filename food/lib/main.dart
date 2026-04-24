@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:food/pages/home/ui/home_page.dart';
-import 'package:food/pages/splash/intro/intro_page.dart';
-import 'package:food/pages/splash/splash_page.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
-  runApp(const food_app());
+import 'core/constants/storage_keys.dart';
+import 'bindings/initial_binding.dart';
+import 'routes/app_pages.dart';
+import 'routes/app_routes.dart';
+import 'theme/app_theme.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  runApp(const FoodApp());
 }
 
-// ignore: camel_case_types
-class food_app extends StatelessWidget {
-  const food_app({super.key});
+class FoodApp extends StatelessWidget {
+  const FoodApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    final savedTheme = GetStorage().read<String>(StorageKeys.themeMode);
+
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Restaurant App",
-      theme: ThemeData(primarySwatch: Colors.red, fontFamily: "Poppins"),
-      initialRoute: "/",
-      routes: {
-        "/": (context) => const SplashPage(),
-        "/intro": (context) => const IntroPage(),
-        "/home": (context) => const HomePage(),
-      },
+      title: 'TasteTrail Food',
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: savedTheme == 'dark' ? ThemeMode.dark : ThemeMode.light,
+      initialBinding: InitialBinding(),
+      initialRoute: AppRoutes.home,
+      getPages: AppPages.pages,
+      defaultTransition: Transition.fadeIn,
     );
   }
 }
