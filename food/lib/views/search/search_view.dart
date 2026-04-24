@@ -33,7 +33,12 @@ class SearchView extends GetView<FoodSearchController> {
                 hintText: 'Pizza, Burger, Pasta...',
               ),
               const SizedBox(height: 14),
-              Obx(() => _SuggestionRow(controller: controller)),
+              Obx(
+                () => _SuggestionRow(
+                  suggestions: controller.suggestions,
+                  onSelected: controller.useSuggestion,
+                ),
+              ),
               const SizedBox(height: 16),
               Expanded(
                 child: Obx(() {
@@ -97,13 +102,16 @@ class SearchView extends GetView<FoodSearchController> {
 }
 
 class _SuggestionRow extends StatelessWidget {
-  const _SuggestionRow({required this.controller});
+  const _SuggestionRow({
+    required this.suggestions,
+    required this.onSelected,
+  });
 
-  final FoodSearchController controller;
+  final List<String> suggestions;
+  final ValueChanged<String> onSelected;
 
   @override
   Widget build(BuildContext context) {
-    final suggestions = controller.suggestions;
     if (suggestions.isEmpty) return const SizedBox.shrink();
 
     return SingleChildScrollView(
@@ -115,7 +123,7 @@ class _SuggestionRow extends StatelessWidget {
             child: InputChip(
               label: Text(suggestion),
               avatar: const Icon(Icons.bolt_rounded, size: 18),
-              onPressed: () => controller.useSuggestion(suggestion),
+              onPressed: () => onSelected(suggestion),
             ),
           );
         }).toList(),

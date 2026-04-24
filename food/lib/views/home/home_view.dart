@@ -47,11 +47,25 @@ class HomeView extends GetView<HomeController> {
                       const SizedBox(height: 14),
                       const _SuggestionChips(),
                       const SizedBox(height: 24),
-                      Obx(() => _AdCarousel(controller: controller)),
+                      Obx(
+                        () => _AdCarousel(
+                          state: controller.state.value,
+                          ads: controller.ads.toList(),
+                          currentAdIndex: controller.currentAdIndex.value,
+                          onPageChanged: controller.changeAd,
+                        ),
+                      ),
                       const SizedBox(height: 26),
                       const SectionHeader(title: 'Explore categories'),
                       const SizedBox(height: 12),
-                      Obx(() => _CategoryStrip(controller: controller)),
+                      Obx(
+                        () => _CategoryStrip(
+                          state: controller.state.value,
+                          sourceCategories: controller.categories.toList(),
+                          selectedCategoryId: controller.selectedCategoryId.value,
+                          onSelected: controller.selectCategory,
+                        ),
+                      ),
                       const SizedBox(height: 24),
                       SectionHeader(
                         title: 'Popular near you',
@@ -63,7 +77,16 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ),
-              Obx(() => _FoodGrid(controller: controller)),
+              Obx(
+                () => _FoodGrid(
+                  state: controller.state.value,
+                  errorMessage: controller.errorMessage.value,
+                  foods: controller.filteredFoods,
+                  onRetry: controller.loadHomeData,
+                  onFavorite: controller.toggleFavorite,
+                  onCart: controller.addToCart,
+                ),
+              ),
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
             ],
           ),
@@ -163,24 +186,32 @@ class _SuggestionChips extends StatelessWidget {
 }
 
 class _AdCarousel extends StatelessWidget {
-  const _AdCarousel({required this.controller});
+  const _AdCarousel({
+    required this.state,
+    required this.ads,
+    required this.currentAdIndex,
+    required this.onPageChanged,
+  });
 
-  final HomeController controller;
+  final ViewState state;
+  final List<AdModel> ads;
+  final int currentAdIndex;
+  final ValueChanged<int> onPageChanged;
 
   @override
   Widget build(BuildContext context) {
-    if (controller.state.value == ViewState.loading && controller.ads.isEmpty) {
+    if (state == ViewState.loading && ads.isEmpty) {
       return const LoadingShimmer(height: 190, radius: 28);
     }
 
-    if (controller.ads.isEmpty) return const SizedBox.shrink();
+    if (ads.isEmpty) return const SizedBox.shrink();
 
     return Column(
       children: <Widget>[
         CarouselSlider.builder(
-          itemCount: controller.ads.length,
+          itemCount: ads.length,
           itemBuilder: (context, index, realIndex) {
-            return _AdCard(ad: controller.ads[index]);
+            return _AdCard(ad: ads[index]);
           },
           options: CarouselOptions(
             height: 190,
@@ -189,14 +220,14 @@ class _AdCarousel extends StatelessWidget {
             enlargeFactor: .18,
             autoPlay: true,
             autoPlayInterval: const Duration(seconds: 4),
-            onPageChanged: (index, reason) => controller.changeAd(index),
+            onPageChanged: (index, reason) => onPageChanged(index),
           ),
         ),
         const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: List<Widget>.generate(controller.ads.length, (index) {
-            final active = controller.currentAdIndex.value == index;
+          children: List<Widget>.generate(ads.length, (index) {
+            final active = currentAdIndex == index;
             return AnimatedContainer(
               duration: const Duration(milliseconds: 220),
               width: active ? 22 : 7,
@@ -289,25 +320,32 @@ class _AdCard extends StatelessWidget {
 }
 
 class _CategoryStrip extends StatelessWidget {
-  const _CategoryStrip({required this.controller});
+  const _CategoryStrip({
+    required this.state,
+    required this.sourceCategories,
+    required this.selectedCategoryId,
+    required this.onSelected,
+  });
 
-  final HomeController controller;
+  final ViewState state;
+  final List<CategoryModel> sourceCategories;
+  final String selectedCategoryId;
+  final ValueChanged<String> onSelected;
 
   @override
   Widget build(BuildContext context) {
-    if (controller.state.value == ViewState.loading &&
-        controller.categories.isEmpty) {
+    if (state == ViewState.loading && sourceCategories.isEmpty) {
       return const LoadingShimmer(height: 76, radius: 24);
     }
 
-    final categories = <CategoryModel>[
+    final visibleCategories = <CategoryModel>[
       const CategoryModel(
         id: 'all',
         name: 'All',
         imageUrl: '',
         colorHex: 'FFFFFF',
       ),
-      ...controller.categories,
+      ...sourceCategories,
     ];
 
     return SizedBox(
@@ -315,16 +353,16 @@ class _CategoryStrip extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final category = categories[index];
-          final selected = controller.selectedCategoryId.value == category.id;
+          final category = visibleCategories[index];
+          final selected = selectedCategoryId == category.id;
           return _CategoryPill(
             category: category,
             selected: selected,
-            onTap: () => controller.selectCategory(category.id),
+            onTap: () => onSelected(category.id),
           );
         },
         separatorBuilder: (context, index) => const SizedBox(width: 12),
-        itemCount: categories.length,
+        itemCount: visibleCategories.length,
       ),
     );
   }
@@ -405,14 +443,25 @@ class _CategoryPill extends StatelessWidget {
 }
 
 class _FoodGrid extends StatelessWidget {
-  const _FoodGrid({required this.controller});
+  const _FoodGrid({
+    required this.state,
+    required this.errorMessage,
+    required this.foods,
+    required this.onRetry,
+    required this.onFavorite,
+    required this.onCart,
+  });
 
-  final HomeController controller;
+  final ViewState state;
+  final String errorMessage;
+  final List<FoodModel> foods;
+  final VoidCallback onRetry;
+  final ValueChanged<FoodModel> onFavorite;
+  final ValueChanged<FoodModel> onCart;
 
   @override
   Widget build(BuildContext context) {
-    final state = controller.state.value;
-    if (state == ViewState.loading && controller.foods.isEmpty) {
+    if (state == ViewState.loading && foods.isEmpty) {
       return SliverPadding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         sliver: SliverGrid.builder(
@@ -434,14 +483,13 @@ class _FoodGrid extends StatelessWidget {
         child: EmptyState(
           icon: Icons.wifi_off_rounded,
           title: 'Could not load menu',
-          message: controller.errorMessage.value,
+          message: errorMessage,
           actionLabel: 'Try again',
-          onAction: controller.loadHomeData,
+          onAction: onRetry,
         ),
       );
     }
 
-    final foods = controller.filteredFoods;
     if (foods.isEmpty) {
       return const SliverFillRemaining(
         hasScrollBody: false,
@@ -474,11 +522,13 @@ class _FoodGrid extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               final FoodModel food = foods[index];
-              return Food3DCard(
-                food: food,
-                isFavorite: favoritesController.isFavorite(food.id),
-                onFavorite: () => controller.toggleFavorite(food),
-                onCart: () => controller.addToCart(food),
+              return Obx(
+                () => Food3DCard(
+                  food: food,
+                  isFavorite: favoritesController.isFavorite(food.id),
+                  onFavorite: () => onFavorite(food),
+                  onCart: () => onCart(food),
+                ),
               );
             },
           );

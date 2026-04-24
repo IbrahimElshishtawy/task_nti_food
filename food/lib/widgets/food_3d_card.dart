@@ -45,8 +45,7 @@ class _Food3DCardState extends State<Food3DCard> {
         transform: Matrix4.identity()
           ..setEntry(3, 2, 0.0012)
           ..rotateX(_pressed ? 0.025 : -0.035)
-          ..rotateY(_pressed ? -0.025 : 0.045)
-          ..scale(_pressed ? .985 : 1.0),
+          ..rotateY(_pressed ? -0.025 : 0.045),
         decoration: BoxDecoration(
           color: colorScheme.surface,
           borderRadius: BorderRadius.circular(28),

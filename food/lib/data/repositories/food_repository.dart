@@ -14,6 +14,11 @@ class FoodRepository {
   final ApiService _apiService;
 
   Future<List<FoodModel>> getFoods() async {
+    if (_usesMockApi) {
+      await _shortDelay();
+      return MockData.foods;
+    }
+
     try {
       final response = await _apiService.get(ApiEndpoints.foods);
       return _decodeList(response.data, FoodModel.fromJson);
@@ -24,6 +29,14 @@ class FoodRepository {
   }
 
   Future<FoodModel> getFoodDetails(String id) async {
+    if (_usesMockApi) {
+      await _shortDelay();
+      return MockData.foods.firstWhere(
+        (food) => food.id == id,
+        orElse: () => MockData.foods.first,
+      );
+    }
+
     try {
       final response = await _apiService.get(ApiEndpoints.foodDetails(id));
       return FoodModel.fromJson(_decodeMap(response.data));
@@ -37,6 +50,11 @@ class FoodRepository {
   }
 
   Future<List<CategoryModel>> getCategories() async {
+    if (_usesMockApi) {
+      await _shortDelay();
+      return MockData.categories;
+    }
+
     try {
       final response = await _apiService.get(ApiEndpoints.categories);
       return _decodeList(response.data, CategoryModel.fromJson);
@@ -47,6 +65,11 @@ class FoodRepository {
   }
 
   Future<List<AdModel>> getAds() async {
+    if (_usesMockApi) {
+      await _shortDelay();
+      return MockData.ads;
+    }
+
     try {
       final response = await _apiService.get(ApiEndpoints.ads);
       return _decodeList(response.data, AdModel.fromJson);
@@ -60,6 +83,11 @@ class FoodRepository {
     final normalizedQuery = query.trim().toLowerCase();
     if (normalizedQuery.isEmpty) return const <FoodModel>[];
 
+    if (_usesMockApi) {
+      await _shortDelay();
+      return _filterMockFoods(normalizedQuery);
+    }
+
     try {
       final response = await _apiService.get(
         ApiEndpoints.search,
@@ -68,11 +96,7 @@ class FoodRepository {
       return _decodeList(response.data, FoodModel.fromJson);
     } catch (_) {
       await _shortDelay();
-      return MockData.foods.where((food) {
-        return food.name.toLowerCase().contains(normalizedQuery) ||
-            food.description.toLowerCase().contains(normalizedQuery) ||
-            food.categoryId.toLowerCase().contains(normalizedQuery);
-      }).toList();
+      return _filterMockFoods(normalizedQuery);
     }
   }
 
@@ -92,6 +116,17 @@ class FoodRepository {
       'total': subtotal + deliveryFee,
     };
 
+    if (_usesMockApi) {
+      await _shortDelay();
+      return _mockOrder(
+        items: items,
+        subtotal: subtotal,
+        deliveryFee: deliveryFee,
+        address: address,
+        paymentMethod: paymentMethod,
+      );
+    }
+
     try {
       final response = await _apiService.post(
         ApiEndpoints.orders,
@@ -100,21 +135,22 @@ class FoodRepository {
       return OrderModel.fromJson(_decodeMap(response.data));
     } catch (_) {
       await _shortDelay();
-      return OrderModel(
-        id: 'ORD-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
-        items: List<CartItemModel>.from(items),
+      return _mockOrder(
+        items: items,
         subtotal: subtotal,
         deliveryFee: deliveryFee,
-        total: subtotal + deliveryFee,
-        status: OrderStatus.pending,
         address: address,
         paymentMethod: paymentMethod,
-        createdAt: DateTime.now(),
       );
     }
   }
 
   Future<List<OrderModel>> getOrders() async {
+    if (_usesMockApi) {
+      await _shortDelay();
+      return MockData.orders();
+    }
+
     try {
       final response = await _apiService.get(ApiEndpoints.orders);
       return _decodeList(response.data, OrderModel.fromJson);
@@ -147,6 +183,36 @@ class FoodRepository {
         .whereType<Map>()
         .map((item) => mapper(Map<String, dynamic>.from(item)))
         .toList();
+  }
+
+  bool get _usesMockApi => ApiEndpoints.baseUrl.contains('api.example.com');
+
+  List<FoodModel> _filterMockFoods(String normalizedQuery) {
+    return MockData.foods.where((food) {
+      return food.name.toLowerCase().contains(normalizedQuery) ||
+          food.description.toLowerCase().contains(normalizedQuery) ||
+          food.categoryId.toLowerCase().contains(normalizedQuery);
+    }).toList();
+  }
+
+  OrderModel _mockOrder({
+    required List<CartItemModel> items,
+    required double subtotal,
+    required double deliveryFee,
+    required String address,
+    required PaymentMethod paymentMethod,
+  }) {
+    return OrderModel(
+      id: 'ORD-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
+      items: List<CartItemModel>.from(items),
+      subtotal: subtotal,
+      deliveryFee: deliveryFee,
+      total: subtotal + deliveryFee,
+      status: OrderStatus.pending,
+      address: address,
+      paymentMethod: paymentMethod,
+      createdAt: DateTime.now(),
+    );
   }
 
   Future<void> _shortDelay() {

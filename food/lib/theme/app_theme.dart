@@ -82,7 +82,9 @@ class AppTheme {
     );
 
     return base.copyWith(
-      textTheme: GoogleFonts.poppinsTextTheme(base.textTheme),
+      textTheme: GoogleFonts.config.allowRuntimeFetching
+          ? GoogleFonts.poppinsTextTheme(base.textTheme)
+          : base.textTheme,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colorScheme.surface,
