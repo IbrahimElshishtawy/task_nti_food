@@ -118,9 +118,19 @@ class _CartOverview extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        children: <Widget>[
-          Container(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final compact = constraints.maxWidth < 340;
+          final titleBlock = _OverviewTitle(
+            itemCount: itemCount,
+            subtotal: subtotal,
+            deliveryFee: deliveryFee,
+          );
+          final totalBlock = _OverviewTotal(
+            colorScheme: colorScheme,
+            total: total,
+          );
+          final icon = Container(
             width: 58,
             height: 58,
             decoration: BoxDecoration(
@@ -132,77 +142,130 @@ class _CartOverview extends StatelessWidget {
               color: Colors.white,
               size: 30,
             ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          );
+
+          if (compact) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text(
-                  'cart'.tr,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  '${'quantity'.tr}: $itemCount',
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: .86),
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                Row(
                   children: <Widget>[
-                    _OverviewPill(
-                      label: 'subtotal'.tr,
-                      value: CurrencyFormatter.format(subtotal),
-                    ),
-                    _OverviewPill(
-                      label: 'delivery_fee'.tr,
-                      value: CurrencyFormatter.format(deliveryFee),
-                    ),
+                    icon,
+                    const SizedBox(width: 14),
+                    Expanded(child: titleBlock),
                   ],
                 ),
+                const SizedBox(height: 14),
+                Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: totalBlock,
+                ),
               ],
-            ),
+            );
+          }
+
+          return Row(
+            children: <Widget>[
+              icon,
+              const SizedBox(width: 14),
+              Expanded(child: titleBlock),
+              const SizedBox(width: 12),
+              totalBlock,
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _OverviewTitle extends StatelessWidget {
+  const _OverviewTitle({
+    required this.itemCount,
+    required this.subtotal,
+    required this.deliveryFee,
+  });
+
+  final int itemCount;
+  final double subtotal;
+  final double deliveryFee;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'cart'.tr,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w900,
           ),
-          const SizedBox(width: 12),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: .92),
-              borderRadius: BorderRadius.circular(22),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          '${'quantity'.tr}: $itemCount',
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: .86),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: <Widget>[
+            _OverviewPill(
+              label: 'subtotal'.tr,
+              value: CurrencyFormatter.format(subtotal),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    'total'.tr,
-                    style: TextStyle(
-                      color: colorScheme.onSurfaceVariant,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    CurrencyFormatter.format(total),
-                    style: TextStyle(
-                      color: colorScheme.primary,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ],
+            _OverviewPill(
+              label: 'delivery_fee'.tr,
+              value: CurrencyFormatter.format(deliveryFee),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _OverviewTotal extends StatelessWidget {
+  const _OverviewTotal({required this.colorScheme, required this.total});
+
+  final ColorScheme colorScheme;
+  final double total;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: .92),
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              'total'.tr,
+              style: TextStyle(
+                color: colorScheme.onSurfaceVariant,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              CurrencyFormatter.format(total),
+              style: TextStyle(
+                color: colorScheme.primary,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -332,131 +395,132 @@ class _CartItemCard extends StatelessWidget {
               ),
             ],
           ),
-          child: Row(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Stack(
+              Row(
                 children: <Widget>[
-                  Hero(
-                    tag: 'food-${item.food.id}',
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(22),
-                      child: CachedNetworkImage(
-                        imageUrl: item.food.imageUrl,
-                        width: 96,
-                        height: 104,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => Container(
-                          width: 96,
-                          height: 104,
-                          color: colorScheme.surfaceContainerHighest,
-                        ),
-                        errorWidget: (context, url, error) => Container(
-                          width: 96,
-                          height: 104,
-                          color: colorScheme.surfaceContainerHighest,
-                          child: const Icon(Icons.fastfood_rounded),
-                        ),
-                      ),
-                    ),
-                  ),
-                  PositionedDirectional(
-                    top: 8,
-                    end: 8,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: colorScheme.primary,
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        child: Text(
-                          'x${item.quantity}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w900,
+                  Stack(
+                    children: <Widget>[
+                      Hero(
+                        tag: 'food-${item.food.id}',
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(22),
+                          child: CachedNetworkImage(
+                            imageUrl: item.food.imageUrl,
+                            width: 96,
+                            height: 104,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              width: 96,
+                              height: 104,
+                              color: colorScheme.surfaceContainerHighest,
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              width: 96,
+                              height: 104,
+                              color: colorScheme.surfaceContainerHighest,
+                              child: const Icon(Icons.fastfood_rounded),
+                            ),
                           ),
                         ),
                       ),
+                      PositionedDirectional(
+                        top: 8,
+                        end: 8,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: colorScheme.primary,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            child: Text(
+                              'x${item.quantity}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          item.food.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.w900),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          item.food.description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 6,
+                          children: <Widget>[
+                            _FoodMeta(
+                              icon: Icons.star_rounded,
+                              value: item.food.rating.toStringAsFixed(1),
+                              iconColor: AppColors.butter,
+                            ),
+                            _FoodMeta(
+                              icon: Icons.schedule_rounded,
+                              value: item.food.preparationTime,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      item.food.name,
+              const SizedBox(height: 12),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      CurrencyFormatter.format(item.lineTotal),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: colorScheme.primary,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      item.food.description,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 10,
-                      runSpacing: 6,
-                      children: <Widget>[
-                        _FoodMeta(
-                          icon: Icons.star_rounded,
-                          value: item.food.rating.toStringAsFixed(1),
-                          iconColor: AppColors.butter,
-                        ),
-                        _FoodMeta(
-                          icon: Icons.schedule_rounded,
-                          value: item.food.preparationTime,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            CurrencyFormatter.format(item.lineTotal),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  color: colorScheme.primary,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                          ),
-                        ),
-                        QuantityStepper(
-                          quantity: item.quantity,
-                          onIncrement: () =>
-                              cartController.increment(item.food.id),
-                          onDecrement: () =>
-                              cartController.decrement(item.food.id),
-                        ),
-                        const SizedBox(width: 4),
-                        IconButton(
-                          onPressed: () =>
-                              cartController.removeItem(item.food.id),
-                          icon: const Icon(Icons.delete_outline_rounded),
-                          tooltip: 'remove'.tr,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                  QuantityStepper(
+                    quantity: item.quantity,
+                    onIncrement: () => cartController.increment(item.food.id),
+                    onDecrement: () => cartController.decrement(item.food.id),
+                  ),
+                  const SizedBox(width: 4),
+                  IconButton(
+                    onPressed: () => cartController.removeItem(item.food.id),
+                    icon: const Icon(Icons.delete_outline_rounded),
+                    tooltip: 'remove'.tr,
+                  ),
+                ],
               ),
             ],
           ),
@@ -467,11 +531,7 @@ class _CartItemCard extends StatelessWidget {
 }
 
 class _FoodMeta extends StatelessWidget {
-  const _FoodMeta({
-    required this.icon,
-    required this.value,
-    this.iconColor,
-  });
+  const _FoodMeta({required this.icon, required this.value, this.iconColor});
 
   final IconData icon;
   final String value;
