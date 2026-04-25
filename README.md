@@ -28,15 +28,10 @@
 | ![Splash Screen](food/assets/image/Screen_Splach.png) | ![Home Screen](food/assets/image/Screen_Home.png) | ![Food Details](food/assets/image/Screen_detelis.png) |
 | **3D Animated Splash** | **Premium Home UI** | **3D Food Cards** |
 
-| Favorites | Cart | Checkout |
-|:---:|:---:|:---:|
-| ![Favorites](food/assets/image/Screen_food_favourit.png) | ![Cart](food/assets/image/Screen_orders.png) | ![Checkout](food/assets/image/Screen_orders.png) |
-| **Favorites System** | **Smart Cart** | **Easy Checkout** |
-
-| Payment | Orders | Settings |
-|:---:|:---:|:---:|
-| ![Payment](food/assets/image/Screen_orders.png) | ![Orders](food/assets/image/Screen_orders.png) | ![Settings](food/assets/image/Screen_setting.png) |
-| **Payment Methods** | **Order History** | **App Settings** |
+| Favorites | Settings |
+|:---:|:---:|
+| ![Favorites](food/assets/image/Screen_food_favourit.png) | ![Settings](food/assets/image/Screen_setting.png) |
+| **Favorites System** |  **App Settings** |
 
 </div>
 ---
