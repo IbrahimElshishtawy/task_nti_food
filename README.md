@@ -2,7 +2,7 @@
 
 <img src="screenshots/app_icon.png" alt="App Icon" width="120" height="120" style="border-radius: 30px;" />
 
-# 🍔 [اكتب اسم التطبيق هنا]
+# 🍔[Feasto Food]
 
 ### *Your Premium Food Delivery Experience*
 
@@ -307,11 +307,11 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 <div align="center">
 
-**[اسم المطور]**
+**Ibrahim Elshishtawy**
 
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/YOUR_USERNAME)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/YOUR_PROFILE)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your@email.com)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/IbrahimElshishtawy)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ibrahim-el-shishtawy-0a67b334a)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:shishtawyhima@gmail.com)
 
 ---
 
