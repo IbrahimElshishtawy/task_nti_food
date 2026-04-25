@@ -20,21 +20,41 @@ class MainNavigationView extends GetView<NavigationController> {
       return Scaffold(
         extendBody: true,
         resizeToAvoidBottomInset: false,
-        body: IndexedStack(
-          index: index,
-          children: <Widget>[
-            HeroMode(enabled: index == 0, child: const HomeView()),
-            HeroMode(enabled: index == 1, child: const SearchView()),
-            HeroMode(enabled: index == 2, child: const FavoritesView()),
-            HeroMode(enabled: index == 3, child: const OrderHistoryView()),
-            HeroMode(enabled: index == 4, child: const NotificationsView()),
-            HeroMode(enabled: index == 5, child: const SettingsView()),
-          ],
-        ),
-        bottomNavigationBar: CustomBottomNavBar(
-          currentIndex: index,
-          visible: controller.isNavVisible.value,
-          onTap: controller.changeTab,
+        body: NotificationListener<ScrollNotification>(
+          onNotification: controller.handleScrollNotification,
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                child: IndexedStack(
+                  index: index,
+                  children: <Widget>[
+                    HeroMode(enabled: index == 0, child: const HomeView()),
+                    HeroMode(enabled: index == 1, child: const SearchView()),
+                    HeroMode(enabled: index == 2, child: const FavoritesView()),
+                    HeroMode(
+                      enabled: index == 3,
+                      child: const OrderHistoryView(),
+                    ),
+                    HeroMode(
+                      enabled: index == 4,
+                      child: const NotificationsView(),
+                    ),
+                    HeroMode(enabled: index == 5, child: const SettingsView()),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: CustomBottomNavBar(
+                  currentIndex: index,
+                  visible: controller.isNavVisible.value,
+                  onTap: controller.changeTab,
+                ),
+              ),
+            ],
+          ),
         ),
       );
     });

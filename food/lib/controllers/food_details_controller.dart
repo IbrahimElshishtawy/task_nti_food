@@ -19,6 +19,7 @@ class FoodDetailsController extends GetxController {
   final RxDouble userRating = 0.0.obs;
   final RxString selectedSize = ''.obs;
   final RxList<String> selectedExtras = <String>[].obs;
+  final RxList<FoodModel> recommendations = <FoodModel>[].obs;
 
   double get totalPrice {
     final currentFood = food.value;
@@ -45,6 +46,7 @@ class FoodDetailsController extends GetxController {
       food.value = argument;
       _syncSelections(argument);
       state.value = ViewState.success;
+      await _loadRecommendations(argument);
       return;
     }
 
@@ -66,6 +68,7 @@ class FoodDetailsController extends GetxController {
       food.value = result;
       _syncSelections(result);
       state.value = ViewState.success;
+      await _loadRecommendations(result);
     } catch (error) {
       errorMessage.value = '$error';
       state.value = ViewState.error;
@@ -120,5 +123,54 @@ class FoodDetailsController extends GetxController {
     selectedSize.value = value.sizes.isEmpty ? '' : value.sizes.first;
     selectedExtras.clear();
     quantity.value = 1;
+  }
+
+  Future<void> _loadRecommendations(FoodModel currentFood) async {
+    try {
+      final foods = await _repository.getFoods();
+      final drinkCategories = <String>{
+        'cold_drinks',
+        'hot_drinks',
+        'juices',
+        'coffee',
+        'tea',
+      };
+
+      final candidates =
+          foods
+              .where((food) => food.id != currentFood.id && food.isAvailable)
+              .toList()
+            ..sort((a, b) {
+              final aScore = _recommendationScore(
+                a,
+                currentFood,
+                drinkCategories,
+              );
+              final bScore = _recommendationScore(
+                b,
+                currentFood,
+                drinkCategories,
+              );
+              return bScore.compareTo(aScore);
+            });
+
+      recommendations.assignAll(candidates.take(8));
+    } catch (_) {
+      recommendations.clear();
+    }
+  }
+
+  int _recommendationScore(
+    FoodModel food,
+    FoodModel currentFood,
+    Set<String> drinkCategories,
+  ) {
+    var score = 0;
+    if (food.categoryId == currentFood.categoryId) score += 6;
+    if (drinkCategories.contains(food.categoryId)) score += 5;
+    if (food.isRecommended) score += 4;
+    if (food.isPopular) score += 2;
+    score += food.rating.round();
+    return score;
   }
 }

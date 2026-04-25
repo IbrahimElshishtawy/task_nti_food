@@ -40,54 +40,57 @@ class CustomBottomNavBar extends StatelessWidget {
       _NavItem(Icons.settings_outlined, Icons.settings_rounded, 'settings'.tr),
     ];
 
-    return AnimatedSlide(
-      duration: const Duration(milliseconds: 320),
-      curve: Curves.easeOutCubic,
-      offset: visible ? Offset.zero : const Offset(0, 1.35),
-      child: AnimatedContainer(
+    return IgnorePointer(
+      ignoring: !visible,
+      child: AnimatedSlide(
         duration: const Duration(milliseconds: 320),
         curve: Curves.easeOutCubic,
-        padding: EdgeInsets.fromLTRB(
-          14,
-          10,
-          14,
-          MediaQuery.paddingOf(context).bottom + 12,
-        ),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colorScheme.surface.withValues(alpha: .94),
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(
-              color: colorScheme.outlineVariant.withValues(alpha: .55),
-            ),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: AppColors.primaryDark.withValues(alpha: .16),
-                blurRadius: 34,
-                offset: const Offset(0, 18),
-              ),
-              BoxShadow(
-                color: Colors.black.withValues(alpha: .05),
-                blurRadius: 18,
-                offset: const Offset(0, 8),
-              ),
-            ],
+        offset: visible ? Offset.zero : const Offset(0, 1.35),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 320),
+          curve: Curves.easeOutCubic,
+          padding: EdgeInsets.fromLTRB(
+            14,
+            10,
+            14,
+            MediaQuery.paddingOf(context).bottom + 12,
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: SizedBox(
-              height: 68,
-              child: Row(
-                children: List<Widget>.generate(items.length, (index) {
-                  return Expanded(
-                    child: _BottomNavTile(
-                      item: items[index],
-                      active: currentIndex == index,
-                      onTap: () => onTap(index),
-                      showBadge: index == 4,
-                    ),
-                  );
-                }),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colorScheme.surface.withValues(alpha: .94),
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                color: colorScheme.outlineVariant.withValues(alpha: .55),
+              ),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: AppColors.primaryDark.withValues(alpha: .16),
+                  blurRadius: 34,
+                  offset: const Offset(0, 18),
+                ),
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: .05),
+                  blurRadius: 18,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: SizedBox(
+                height: 68,
+                child: Row(
+                  children: List<Widget>.generate(items.length, (index) {
+                    return Expanded(
+                      child: _BottomNavTile(
+                        item: items[index],
+                        active: currentIndex == index,
+                        onTap: () => onTap(index),
+                        showBadge: index == 4,
+                      ),
+                    );
+                  }),
+                ),
               ),
             ),
           ),

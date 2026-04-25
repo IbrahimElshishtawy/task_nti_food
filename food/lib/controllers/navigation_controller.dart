@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -35,11 +36,39 @@ class NavigationController extends GetxController {
     isNavVisible.value = true;
   }
 
+  bool handleScrollNotification(ScrollNotification notification) {
+    if (notification.depth != 0 || notification.metrics.axis != Axis.vertical) {
+      return false;
+    }
+
+    if (notification is UserScrollNotification) {
+      if (notification.direction == ScrollDirection.forward) {
+        isNavVisible.value = true;
+      } else if (notification.direction == ScrollDirection.reverse &&
+          notification.metrics.pixels > 80) {
+        isNavVisible.value = false;
+      }
+      return false;
+    }
+
+    if (notification is ScrollUpdateNotification) {
+      final delta = notification.scrollDelta ?? 0;
+      _updateNavForScroll(notification.metrics.pixels, delta);
+    }
+
+    return false;
+  }
+
   void _handleHomeScroll() {
     if (!homeScrollController.hasClients || currentIndex.value != 0) return;
 
     final offset = homeScrollController.offset;
     final delta = offset - _lastHomeOffset;
+    _updateNavForScroll(offset, delta);
+    _lastHomeOffset = offset;
+  }
+
+  void _updateNavForScroll(double offset, double delta) {
     if (offset < 80) {
       isNavVisible.value = true;
     } else if (delta > 8) {
@@ -47,7 +76,6 @@ class NavigationController extends GetxController {
     } else if (delta < -8) {
       isNavVisible.value = true;
     }
-    _lastHomeOffset = offset;
   }
 
   @override
