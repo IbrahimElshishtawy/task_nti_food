@@ -16,7 +16,6 @@ import '../../theme/app_colors.dart';
 import '../../widgets/animated_3d_food_card.dart';
 import '../../widgets/empty_state.dart';
 import '../../widgets/loading_shimmer.dart';
-import '../../widgets/premium_search_bar.dart';
 import '../../widgets/section_header.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -40,13 +39,7 @@ class HomeView extends GetView<HomeController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const _HomeHeader(),
-                      const SizedBox(height: 22),
-                      PremiumSearchBar(
-                        readOnly: true,
-                        hintText: 'search_hint'.tr,
-                        onTap: () => navigationController.changeTab(1),
-                      ),
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 18),
                       const _SuggestionChips(),
                       const SizedBox(height: 24),
                       Obx(

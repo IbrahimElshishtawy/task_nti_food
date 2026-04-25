@@ -25,6 +25,11 @@ class AppBottomNav extends StatelessWidget {
             label: 'home'.tr,
           ),
           NavigationDestination(
+            icon: const Icon(Icons.search_rounded),
+            selectedIcon: const Icon(Icons.travel_explore_rounded),
+            label: 'search'.tr,
+          ),
+          NavigationDestination(
             icon: const Icon(Icons.favorite_border_rounded),
             selectedIcon: const Icon(Icons.favorite_rounded),
             label: 'favorites'.tr,
@@ -61,6 +66,7 @@ class AppBottomNav extends StatelessWidget {
     if (index == currentIndex) return;
     final routes = <String>[
       AppRoutes.home,
+      AppRoutes.search,
       AppRoutes.favorites,
       AppRoutes.cart,
       AppRoutes.orders,

@@ -19,20 +19,22 @@ class SearchView extends GetView<FoodSearchController> {
     final cartController = Get.find<CartController>();
 
     return Scaffold(
-      appBar: AppBar(title: Text('search'.tr)),
+      appBar: AppBar(
+        toolbarHeight: 82,
+        titleSpacing: 20,
+        title: PremiumSearchBar(
+          controller: controller.textController,
+          autofocus: false,
+          onChanged: controller.onQueryChanged,
+          hintText: 'search_hint'.tr,
+        ),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+          padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              PremiumSearchBar(
-                controller: controller.textController,
-                autofocus: false,
-                onChanged: controller.onQueryChanged,
-                hintText: 'search_hint'.tr,
-              ),
-              const SizedBox(height: 14),
               Obx(
                 () => _SuggestionRow(
                   suggestions: controller.suggestions,
