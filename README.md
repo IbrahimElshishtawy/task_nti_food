@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="screenshots/app_icon.png" alt="App Icon" width="120" height="120" style="border-radius: 30px;" />
+<img src="food/assets/icon/icon.png" alt="App Icon" width="120" height="120" style="border-radius: 30px;" />
 
 # 🍔[Feasto Food]
 
