@@ -23,9 +23,14 @@ void main() {
     WidgetTester tester,
   ) async {
     GoogleFonts.config.allowRuntimeFetching = false;
+    await GetStorage().erase();
 
     await tester.pumpWidget(const FoodApp());
-    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pump();
+    expect(find.text('TasteTrail'), findsOneWidget);
+
+    await tester.pump(const Duration(seconds: 4));
+    await tester.pump(const Duration(seconds: 1));
     await tester.pump();
 
     expect(find.textContaining('Good morning'), findsOneWidget);

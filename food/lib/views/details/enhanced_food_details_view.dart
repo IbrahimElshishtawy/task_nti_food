@@ -203,6 +203,7 @@ class _FloatingHeroImageState extends State<_FloatingHeroImage>
       animation: _controller,
       builder: (context, child) {
         final value = Curves.easeInOut.transform(_controller.value);
+        final scale = .98 + (value * .025);
         return Transform.translate(
           offset: Offset(0, -14 * value),
           child: Transform(
@@ -212,7 +213,7 @@ class _FloatingHeroImageState extends State<_FloatingHeroImage>
               ..rotateX(-.05 + (value * .025))
               ..rotateY(.06 - (value * .035))
               ..rotateZ(math.sin(value * math.pi) * .018)
-              ..scale(.98 + (value * .025)),
+              ..multiply(Matrix4.diagonal3Values(scale, scale, scale)),
             child: child,
           ),
         );

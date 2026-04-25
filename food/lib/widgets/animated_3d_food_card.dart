@@ -67,6 +67,7 @@ class _Animated3DFoodCardState extends State<Animated3DFoodCard> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final pressScale = _pressed ? .985 : 1.0;
     return AnimatedOpacity(
       opacity: _visible ? 1 : 0,
       duration: const Duration(milliseconds: 420),
@@ -88,7 +89,9 @@ class _Animated3DFoodCardState extends State<Animated3DFoodCard> {
               ..setEntry(3, 2, 0.0015)
               ..rotateX(_pressed ? .018 : -.035)
               ..rotateY(_pressed ? -.018 : .04)
-              ..scale(_pressed ? .985 : 1.0),
+              ..multiply(
+                Matrix4.diagonal3Values(pressScale, pressScale, pressScale),
+              ),
             child: Stack(
               clipBehavior: Clip.none,
               children: <Widget>[
