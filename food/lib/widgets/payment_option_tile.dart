@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../models/order_model.dart';
 
@@ -52,7 +53,7 @@ class PaymentOptionTile extends StatelessWidget {
             const SizedBox(width: 14),
             Expanded(
               child: Text(
-                method.label,
+                _label.tr,
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
@@ -76,6 +77,17 @@ class PaymentOptionTile extends StatelessWidget {
         return Icons.credit_card_rounded;
       case PaymentMethod.wallet:
         return Icons.account_balance_wallet_outlined;
+    }
+  }
+
+  String get _label {
+    switch (method) {
+      case PaymentMethod.cashOnDelivery:
+        return 'cash_on_delivery';
+      case PaymentMethod.creditCard:
+        return 'credit_card';
+      case PaymentMethod.wallet:
+        return 'wallet';
     }
   }
 }

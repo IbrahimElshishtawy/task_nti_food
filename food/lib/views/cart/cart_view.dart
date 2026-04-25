@@ -17,15 +17,15 @@ class CartView extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Cart')),
+      appBar: AppBar(title: Text('cart'.tr)),
       bottomNavigationBar: const AppBottomNav(currentIndex: 2),
       body: Obx(() {
         if (controller.items.isEmpty) {
           return EmptyState(
             icon: Icons.shopping_bag_outlined,
-            title: 'Your cart is light',
-            message: 'Add meals from the home page and checkout in seconds.',
-            actionLabel: 'Explore menu',
+            title: 'cart_light'.tr,
+            message: 'cart_light_message'.tr,
+            actionLabel: 'explore_menu'.tr,
             onAction: () => Get.offNamed(AppRoutes.home),
           );
         }
@@ -72,7 +72,7 @@ class CartView extends GetView<CartController> {
                   FilledButton.icon(
                     onPressed: () => Get.toNamed(AppRoutes.checkout),
                     icon: const Icon(Icons.lock_rounded),
-                    label: Text('Checkout ${controller.totalLabel}'),
+                    label: Text('${'checkout'.tr} ${controller.totalLabel}'),
                   ),
                 ],
               ),
@@ -156,7 +156,7 @@ class _CartItemCard extends StatelessWidget {
           IconButton(
             onPressed: () => cartController.removeItem(item.food.id),
             icon: const Icon(Icons.delete_outline_rounded),
-            tooltip: 'Remove',
+            tooltip: 'remove'.tr,
           ),
         ],
       ),

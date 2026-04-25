@@ -19,14 +19,14 @@ class ConfirmOrderView extends GetView<OrderController> {
     final paymentController = Get.find<PaymentController>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Confirm Order')),
+      appBar: AppBar(title: Text('confirm_order'.tr)),
       body: Obx(() {
         if (cartController.items.isEmpty) {
           return EmptyState(
             icon: Icons.shopping_bag_outlined,
-            title: 'Cart is empty',
-            message: 'Add meals first so we can prepare your checkout.',
-            actionLabel: 'Back to menu',
+            title: 'cart_empty'.tr,
+            message: 'checkout_empty_message'.tr,
+            actionLabel: 'back_to_menu'.tr,
             onAction: () => Get.offNamed(AppRoutes.home),
           );
         }
@@ -35,7 +35,7 @@ class ConfirmOrderView extends GetView<OrderController> {
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
           children: <Widget>[
             _CheckoutSection(
-              title: 'Delivery address',
+              title: 'delivery_address'.tr,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -57,9 +57,9 @@ class ConfirmOrderView extends GetView<OrderController> {
                   const SizedBox(height: 14),
                   TextField(
                     controller: controller.addressController,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.location_on_outlined),
-                      hintText: 'Write delivery notes or a new address',
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.location_on_outlined),
+                      hintText: 'delivery_notes_hint'.tr,
                     ),
                     maxLines: 2,
                   ),
@@ -68,11 +68,11 @@ class ConfirmOrderView extends GetView<OrderController> {
             ),
             const SizedBox(height: 16),
             _CheckoutSection(
-              title: 'Payment method',
+              title: 'payment_method'.tr,
               action: TextButton.icon(
                 onPressed: () => Get.toNamed(AppRoutes.paymentMethods),
                 icon: const Icon(Icons.edit_rounded),
-                label: const Text('Change'),
+                label: Text('change'.tr),
               ),
               child: Obx(
                 () => PaymentOptionTile(
@@ -84,7 +84,7 @@ class ConfirmOrderView extends GetView<OrderController> {
             ),
             const SizedBox(height: 16),
             _CheckoutSection(
-              title: 'Order summary',
+              title: 'order_summary'.tr,
               child: PriceSummary(
                 subtotal: cartController.subtotal,
                 deliveryFee: cartController.deliveryFee,
@@ -104,7 +104,7 @@ class ConfirmOrderView extends GetView<OrderController> {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : const Icon(Icons.check_circle_rounded),
-                label: Text(loading ? 'Sending order...' : 'Place Order'),
+                label: Text(loading ? 'sending_order'.tr : 'place_order'.tr),
               );
             }),
             Obx(() {

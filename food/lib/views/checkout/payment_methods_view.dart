@@ -17,7 +17,7 @@ class PaymentMethodsView extends GetView<PaymentController> {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Payment Methods')),
+      appBar: AppBar(title: Text('payment_methods'.tr)),
       body: ListView.separated(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
         itemCount: methods.length,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../utils/currency_formatter.dart';
 
@@ -27,17 +28,17 @@ class PriceSummary extends StatelessWidget {
       child: Column(
         children: <Widget>[
           _SummaryRow(
-            label: 'Subtotal',
+            label: 'subtotal'.tr,
             value: CurrencyFormatter.format(subtotal),
           ),
           const SizedBox(height: 10),
           _SummaryRow(
-            label: 'Delivery fee',
+            label: 'delivery_fee'.tr,
             value: CurrencyFormatter.format(deliveryFee),
           ),
           const Divider(height: 28),
           _SummaryRow(
-            label: 'Total',
+            label: 'total'.tr,
             value: CurrencyFormatter.format(total),
             isTotal: true,
           ),
