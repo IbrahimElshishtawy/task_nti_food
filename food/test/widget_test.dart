@@ -14,8 +14,8 @@ void main() {
     const channel = MethodChannel('plugins.flutter.io/path_provider');
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
-      return Directory.systemTemp.path;
-    });
+          return Directory.systemTemp.path;
+        });
     await GetStorage.init();
   });
 

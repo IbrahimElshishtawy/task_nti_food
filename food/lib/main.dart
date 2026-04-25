@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -13,8 +15,21 @@ import 'translations/app_translations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
+  await _initStorage();
   runApp(const FoodApp());
+}
+
+Future<void> _initStorage() async {
+  if (!Platform.isAndroid) {
+    await GetStorage.init();
+    return;
+  }
+
+  final storageDir = Directory('/data/user/0/com.example.food/files');
+  if (!storageDir.existsSync()) {
+    storageDir.createSync(recursive: true);
+  }
+  await GetStorage('GetStorage', storageDir.path).initStorage;
 }
 
 class FoodApp extends StatelessWidget {

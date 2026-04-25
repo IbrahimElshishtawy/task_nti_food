@@ -19,15 +19,15 @@ class AppBottomNav extends StatelessWidget {
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         onDestinationSelected: _onDestinationSelected,
         destinations: <Widget>[
-          const NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home_rounded),
-            label: 'Home',
+          NavigationDestination(
+            icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home_rounded),
+            label: 'home'.tr,
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.favorite_border_rounded),
-            selectedIcon: Icon(Icons.favorite_rounded),
-            label: 'Favorites',
+          NavigationDestination(
+            icon: const Icon(Icons.favorite_border_rounded),
+            selectedIcon: const Icon(Icons.favorite_rounded),
+            label: 'favorites'.tr,
           ),
           NavigationDestination(
             icon: Badge(
@@ -40,17 +40,17 @@ class AppBottomNav extends StatelessWidget {
               label: Text('$cartCount'),
               child: const Icon(Icons.shopping_bag_rounded),
             ),
-            label: 'Cart',
+            label: 'cart'.tr,
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.receipt_long_outlined),
-            selectedIcon: Icon(Icons.receipt_long_rounded),
-            label: 'Orders',
+          NavigationDestination(
+            icon: const Icon(Icons.receipt_long_outlined),
+            selectedIcon: const Icon(Icons.receipt_long_rounded),
+            label: 'orders'.tr,
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings_rounded),
-            label: 'Settings',
+          NavigationDestination(
+            icon: const Icon(Icons.settings_outlined),
+            selectedIcon: const Icon(Icons.settings_rounded),
+            label: 'settings'.tr,
           ),
         ],
       );
