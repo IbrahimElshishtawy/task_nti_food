@@ -19,28 +19,26 @@
 </div>
 
 ---
-
 ## 📸 Preview
 
 <div align="center">
 
 | Splash Screen | Home | Food Details |
 |:---:|:---:|:---:|
-| ![Splash Screen](screenshots/splash.png) | ![Home Screen](screenshots/home.png) | ![Food Details](screenshots/details.png) |
+| ![Splash Screen](food/assets/image/Screen_Splach.png) | ![Home Screen](food/assets/image/Screen_Home.png) | ![Food Details](food/assets/image/Screen_detelis.png) |
 | **3D Animated Splash** | **Premium Home UI** | **3D Food Cards** |
 
 | Favorites | Cart | Checkout |
 |:---:|:---:|:---:|
-| ![Favorites](screenshots/favorites.png) | ![Cart](screenshots/cart.png) | ![Checkout](screenshots/checkout.png) |
+| ![Favorites](food/assets/image/Screen_food_favourit.png) | ![Cart](food/assets/image/Screen_orders.png) | ![Checkout](food/assets/image/Screen_orders.png) |
 | **Favorites System** | **Smart Cart** | **Easy Checkout** |
 
 | Payment | Orders | Settings |
 |:---:|:---:|:---:|
-| ![Payment](screenshots/payment.png) | ![Orders](screenshots/orders.png) | ![Settings](screenshots/settings.png) |
+| ![Payment](food/assets/image/Screen_orders.png) | ![Orders](food/assets/image/Screen_orders.png) | ![Settings](food/assets/image/Screen_setting.png) |
 | **Payment Methods** | **Order History** | **App Settings** |
 
 </div>
-
 ---
 
 ## ✨ Features
